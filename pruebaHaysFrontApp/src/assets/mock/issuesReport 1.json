@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "María",
+    "surname": "López",
+    "description": "Problemas con el acceso al sistema",
+    "creationDate": "2024-12-01T10:30:00Z",
+    "status": "Pendiente"
+  },
+  {
+    "id": 2,
+    "name": "Juan",
+    "surname": "Pérez",
+    "description": "Solicitud de cambio de contraseña",
+    "creationDate": "2024-12-02T12:00:00Z",
+    "status": "Resuelta"
+  },
+  {
+    "id": 3,
+    "name": "Laura",
+    "surname": "Sánchez",
+    "description": "Error en la carga de archivos",
+    "creationDate": "2024-12-03T09:15:00Z",
+    "status": "Cancelada"
+  },
+  {
+    "id": 4,
+    "name": "Carlos",
+    "surname": "Ruiz",
+    "description": "Impresora no funciona",
+    "creationDate": "2024-12-04T08:00:00Z",
+    "status": "Pendiente"
+  },
+  {
+    "id": 5,
+    "name": "Ana",
+    "surname": "Torres",
+    "description": "Solicitud de acceso a nueva herramienta",
+    "creationDate": "2024-12-05T14:30:00Z",
+    "status": "Resuelta"
+  },
+  {
+    "id": 6,
+    "name": "Luis",
+    "surname": "Gómez",
+    "description": "Problemas con la red WiFi",
+    "creationDate": "2024-12-06T11:45:00Z",
+    "status": "Pendiente"
+  },
+  {
+    "id": 7,
+    "name": "Patricia",
+    "surname": "Moreno",
+    "description": "Bloqueo de cuenta de usuario",
+    "creationDate": "2024-12-07T13:20:00Z",
+    "status": "Cancelada"
+  },
+  {
+    "id": 8,
+    "name": "Raúl",
+    "surname": "Méndez",
+    "description": "No carga la aplicación web",
+    "creationDate": "2024-12-08T15:10:00Z",
+    "status": "Resuelta"
+  },
+  {
+    "id": 9,
+    "name": "Sofía",
+    "surname": "Herrera",
+    "description": "Actualización del software antivirus",
+    "creationDate": "2024-12-09T10:00:00Z",
+    "status": "Pendiente"
+  },
+  {
+    "id": 10,
+    "name": "Jorge",
+    "surname": "Ramírez",
+    "description": "Problemas para imprimir documentos PDF",
+    "creationDate": "2024-12-10T09:00:00Z",
+    "status": "Cancelada"
+  },
+  {
+    "id": 11,
+    "name": "Elena",
+    "surname": "Navarro",
+    "description": "Solicitud de nuevo equipo portátil",
+    "creationDate": "2024-12-11T16:40:00Z",
+    "status": "Resuelta"
+  },
+  {
+    "id": 12,
+    "name": "Víctor",
+    "surname": "Díaz",
+    "description": "No funciona el correo corporativo",
+    "creationDate": "2024-12-12T08:25:00Z",
+    "status": "Pendiente"
+  },
+  {
+    "id": 13,
+    "name": "Carmen",
+    "surname": "Ortega",
+    "description": "Petición de formación en software nuevo",
+    "creationDate": "2024-12-13T11:10:00Z",
+    "status": "Resuelta"
+  },
+  {
+    "id": 14,
+    "name": "David",
+    "surname": "Alonso",
+    "description": "Error en el sistema de reservas",
+    "creationDate": "2024-12-14T13:35:00Z",
+    "status": "Pendiente"
+  },
+  {
+    "id": 15,
+    "name": "Lucía",
+    "surname": "Romero",
+    "description": "Dificultades con firma electrónica",
+    "creationDate": "2024-12-15T17:50:00Z",
+    "status": "Cancelada"
+  }
+]
