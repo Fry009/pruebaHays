@@ -10,6 +10,6 @@ export class ReportService {
   constructor(private http: HttpClient) {}
 
   getReports(): Observable<IReport[]> {
-    return this.http.get<IReport[]>('/assets/mock/issuesReport 1.json');
+    return this.http.get<IReport[]>('assets/mock/issuesReport.json');
   }
 }
