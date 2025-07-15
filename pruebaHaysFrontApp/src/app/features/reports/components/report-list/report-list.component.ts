@@ -9,6 +9,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { IReport } from '../../../../core/models/IReport';
 import { ReportService } from '../../../../core/services/report.service';
+import { ReportEditDialogComponent } from '../report-edit-dialog/report-edit-dialog.component';
 
 @Component({
   selector: 'app-report-list',

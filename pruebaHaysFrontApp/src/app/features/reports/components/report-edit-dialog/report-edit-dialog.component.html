@@ -1,1 +1,22 @@
-<p>report-edit-dialog works!</p>
+<h2 mat-dialog-title>Editar Reporte</h2>
+
+<form [formGroup]="form" class="dialog-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Descripción</mat-label>
+    <textarea matInput formControlName="description" rows="3"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Estado</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="Pendiente">Pendiente</mat-option>
+      <mat-option value="Resuelta">Resuelta</mat-option>
+      <mat-option value="Cancelada">Cancelada</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="dialog-actions">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button mat-button color="primary" (click)="save()">Guardar</button>
+  </div>
+</form>
