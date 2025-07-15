@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 import { ReportService } from '../../../../core/services/report.service';
 import { IReport } from '../../../../core/models/IReport';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-report-list',
@@ -21,6 +22,10 @@ export class ReportListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @Input({ required: true }) filtersForm!: FormGroup<{
+  name: FormControl<string>;
+  status: FormControl<string>;
+}>;
 
   constructor(private reportService: ReportService) {}
 
