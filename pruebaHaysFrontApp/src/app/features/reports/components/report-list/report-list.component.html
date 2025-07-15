@@ -1,19 +1,19 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
     <td mat-cell *matCellDef="let report">{{ getFullName(report) }}</td>
   </ng-container>
 
   <!-- Status Column -->
   <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef>Estado</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
     <td mat-cell *matCellDef="let report">{{ report.status }}</td>
   </ng-container>
 
   <!-- Creation Date Column -->
   <ng-container matColumnDef="creationDate">
-    <th mat-header-cell *matHeaderCellDef>Fecha de creación</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de creación</th>
     <td mat-cell *matCellDef="let report">
       {{ report.creationDate | date : "dd/MM/yyyy" }}
     </td>
@@ -28,3 +28,9 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+
+<mat-paginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+></mat-paginator>
