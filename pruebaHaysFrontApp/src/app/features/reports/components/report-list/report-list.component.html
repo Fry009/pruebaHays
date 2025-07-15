@@ -1,17 +1,17 @@
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-  <!-- Name Column -->
+  <!-- Nombre -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
     <td mat-cell *matCellDef="let report">{{ getFullName(report) }}</td>
   </ng-container>
 
-  <!-- Status Column -->
+  <!-- Estado -->
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
     <td mat-cell *matCellDef="let report">{{ report.status }}</td>
   </ng-container>
 
-  <!-- Creation Date Column -->
+  <!-- Fecha -->
   <ng-container matColumnDef="creationDate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de creación</th>
     <td mat-cell *matCellDef="let report">
@@ -19,12 +19,36 @@
     </td>
   </ng-container>
 
-  <!-- Description Column -->
+  <!-- Descripción -->
   <ng-container matColumnDef="description">
     <th mat-header-cell *matHeaderCellDef>Descripción</th>
     <td mat-cell *matCellDef="let report">{{ report.description }}</td>
   </ng-container>
 
+  <!-- Acciones -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let report">
+      <button
+        mat-button
+        color="primary"
+        *ngIf="report.status === 'Pendiente'"
+        (click)="onEdit(report)"
+      >
+        Editar
+      </button>
+      <button
+        mat-button
+        color="warn"
+        *ngIf="report.status !== 'Resuelta'"
+        (click)="onDelete(report)"
+      >
+        Eliminar
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Filas -->
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
