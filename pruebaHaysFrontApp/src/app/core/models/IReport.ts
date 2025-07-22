@@ -4,5 +4,12 @@ export interface IReport {
   surname: string;
   description: string;
   creationDate: string;
-  status: 'Pendiente' | 'Resuelta' | 'Cancelada';
+  status: ReportStatus;
 }
+
+export enum ReportStatus {
+  Pendiente = 'Pendiente',
+  Resuelta = 'Resuelta',
+  Cancelada = 'Cancelada'
+}
+
