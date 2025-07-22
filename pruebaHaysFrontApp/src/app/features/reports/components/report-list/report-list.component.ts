@@ -1,15 +1,16 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-
 import { MatButtonModule } from '@angular/material/button';
+
+
+import { ReportEditDialogComponent } from '../report-edit-dialog/report-edit-dialog.component';
 import { IReport } from '../../../../core/models/IReport';
 import { ReportService } from '../../../../core/services/report.service';
-import { ReportEditDialogComponent } from '../report-edit-dialog/report-edit-dialog.component';
 
 @Component({
   selector: 'app-report-list',
@@ -26,7 +27,7 @@ import { ReportEditDialogComponent } from '../report-edit-dialog/report-edit-dia
   templateUrl: './report-list.component.html',
   styleUrls: ['./report-list.component.scss'],
 })
-export class ReportListComponent implements OnInit {
+export class ReportListComponent implements OnInit, AfterViewInit {
   @Input({ required: true }) filtersForm!: FormGroup<{
     name: FormControl<string>;
     status: FormControl<string>;
@@ -48,11 +49,14 @@ export class ReportListComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   loadData(): void {
     this.reportService.getReports().subscribe((reports) => {
       this.dataSource.data = reports;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
       this.applyFilter(); // aplicar filtro inicial
     });
   }
@@ -76,6 +80,7 @@ export class ReportListComponent implements OnInit {
     };
 
     this.dataSource.filter = JSON.stringify(filterValues);
+    this.dataSource.paginator?.firstPage();
   }
 
   onEdit(report: IReport): void {
@@ -88,7 +93,7 @@ export class ReportListComponent implements OnInit {
         const index = this.dataSource.data.findIndex(r => r.id === updated.id);
         if (index !== -1) {
           this.dataSource.data[index] = updated;
-          this.dataSource._updateChangeSubscription(); // fuerza actualización
+          this.dataSource._updateChangeSubscription(); // fuerza actualización visual
           this.applyFilter();
         }
       }
