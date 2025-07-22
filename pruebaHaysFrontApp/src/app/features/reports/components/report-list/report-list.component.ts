@@ -1,12 +1,30 @@
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatTableDataSource,
+  MatTableModule,
+} from '@angular/material/table';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  FormGroup,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
+  MatDialog,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-
 
 import { ReportEditDialogComponent } from '../report-edit-dialog/report-edit-dialog.component';
 import { IReport } from '../../../../core/models/IReport';
@@ -39,11 +57,13 @@ export class ReportListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private reportService: ReportService, private dialog: MatDialog) {}
+  constructor(
+    private reportService: ReportService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
-
     this.filtersForm.valueChanges.subscribe(() => {
       this.applyFilter();
     });
@@ -57,7 +77,7 @@ export class ReportListComponent implements OnInit, AfterViewInit {
   loadData(): void {
     this.reportService.getReports().subscribe((reports) => {
       this.dataSource.data = reports;
-      this.applyFilter(); // aplicar filtro inicial
+      this.applyFilter();
     });
   }
 
@@ -70,7 +90,9 @@ export class ReportListComponent implements OnInit, AfterViewInit {
       const filter = JSON.parse(filterString);
       const fullName = `${report.name} ${report.surname}`.toLowerCase();
       const nameMatch = fullName.includes(filter.name.toLowerCase());
-      const statusMatch = filter.status ? report.status === filter.status : true;
+      const statusMatch = filter.status
+        ? report.status === filter.status
+        : true;
       return nameMatch && statusMatch;
     };
 
@@ -90,12 +112,14 @@ export class ReportListComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((updated: IReport | undefined) => {
       if (updated) {
-        const index = this.dataSource.data.findIndex(r => r.id === updated.id);
-        if (index !== -1) {
-          this.dataSource.data[index] = updated;
-          this.dataSource._updateChangeSubscription(); // fuerza actualización visual
-          this.applyFilter();
-        }
+        this.reportService.updateReport(updated).subscribe(() => {
+          const index = this.dataSource.data.findIndex((r) => r.id === updated.id);
+          if (index !== -1) {
+            this.dataSource.data[index] = updated;
+            this.dataSource._updateChangeSubscription();
+            this.applyFilter();
+          }
+        });
       }
     });
   }
@@ -103,8 +127,11 @@ export class ReportListComponent implements OnInit, AfterViewInit {
   onDelete(report: IReport): void {
     const confirmed = confirm(`¿Eliminar reporte de ${report.name} ${report.surname}?`);
     if (confirmed) {
-      this.dataSource.data = this.dataSource.data.filter(r => r.id !== report.id);
-      this.applyFilter();
+      this.reportService.deleteReport(report.id).subscribe(() => {
+        this.dataSource.data = this.dataSource.data.filter(r => r.id !== report.id);
+        this.dataSource._updateChangeSubscription();
+        this.applyFilter();
+      });
     }
   }
 }
