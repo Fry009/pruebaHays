@@ -6,12 +6,20 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          DEFAULT: '#0ea5e9',
-          dark: '#0284c7'
+          DEFAULT: 'var(--accent)',
+          dark: 'var(--accent-strong)'
+        },
+        text: {
+          strong: 'var(--text-strong)',
+          muted: 'var(--text-muted)'
         }
       },
       borderRadius: {
-        xl: '1.25rem'
+        xl: '1.25rem',
+        '2xl': '1.5rem'
+      },
+      boxShadow: {
+        card: 'var(--card-shadow)'
       }
     }
   },

@@ -31,7 +31,7 @@ export class ComputeKPIsForEmployee {
       avgRating: 4.6,
       recurringRate: 0.35,
       cancellations: filtered.filter((job) => job.status === 'canceled').length,
-      revenue: doneJobs.reduce((acc, job) => acc + job.price, 0),
+      revenue: doneJobs.reduce((acc, job) => acc + job.price.amount, 0),
       distanceKm: filtered.length * 2.1
     };
     await this.kpis.save(kpi);

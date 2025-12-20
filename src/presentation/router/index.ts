@@ -6,6 +6,10 @@ import '../pages/evidence-page';
 import '../pages/kpis-page';
 import '../pages/profile-page';
 import '../pages/leads-page';
+import '../pages/premium-page';
+import '../pages/history-page';
+import '../pages/clients-page';
+import '../pages/help-page';
 
 export function createRouter(outlet: Element) {
   const router = new Router(outlet);
@@ -16,7 +20,11 @@ export function createRouter(outlet: Element) {
     { path: '/jobs/:id/evidence', component: 'evidence-page' },
     { path: '/kpis', component: 'kpis-page' },
     { path: '/profile', component: 'profile-page' },
-    { path: '/leads', component: 'leads-page' }
+    { path: '/leads', component: 'leads-page' },
+    { path: '/premium', component: 'premium-page' },
+    { path: '/history', component: 'history-page' },
+    { path: '/clients', component: 'clients-page' },
+    { path: '/help', component: 'help-page' }
   ]);
   return router;
 }

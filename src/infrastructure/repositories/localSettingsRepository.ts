@@ -5,7 +5,10 @@ const defaultSettings: AppSettings = {
   theme: 'light',
   language: 'es',
   demoMode: true,
-  accent: 'ocean'
+  accent: 'ocean',
+  plan: 'FREE',
+  referralCode: undefined,
+  trialEndsAt: undefined
 };
 
 export class LocalSettingsRepository implements SettingsRepository {

@@ -1,23 +1,26 @@
 import { FeatureFlagRepository } from '@core/ports/repositories';
 import { FeatureFlag } from '@core/entities/types';
-
-const defaultFeatures: Record<string, FeatureFlag> = {};
+import { db } from '../storage/dexieClient';
 
 export class LocalFeatureFlagRepository implements FeatureFlagRepository {
+  private buildEnabled(plan: FeatureFlag['plan']) {
+    if (plan === 'PRO_EMPLOYEE') return ['export_pdf', 'kpi_plus', 'smart_tips', 'market_priority'];
+    if (plan === 'PRO_TEAM') return ['export_pdf', 'kpi_plus', 'smart_tips', 'team_views', 'market_priority'];
+    return [];
+  }
+
   async getPlan(employeeId: string): Promise<FeatureFlag> {
-    if (!defaultFeatures[employeeId]) {
-      defaultFeatures[employeeId] = { plan: 'FREE', enabledFeatures: [] };
-    }
-    return defaultFeatures[employeeId];
+    const stored = await db.settings.get(`flags-${employeeId}`);
+    if (stored?.value) return stored.value as FeatureFlag;
+    const fallback: FeatureFlag = { plan: 'FREE', enabledFeatures: [] };
+    await db.settings.put({ id: `flags-${employeeId}`, value: fallback });
+    return fallback;
   }
 
   async upgradePlan(employeeId: string, plan: FeatureFlag['plan']): Promise<FeatureFlag> {
-    const enabled = plan === 'PRO_EMPLOYEE'
-      ? ['export_pdf', 'kpi_plus', 'smart_tips']
-      : plan === 'PRO_TEAM'
-        ? ['export_pdf', 'kpi_plus', 'smart_tips', 'team_views']
-        : [];
-    defaultFeatures[employeeId] = { plan, enabledFeatures: enabled };
-    return defaultFeatures[employeeId];
+    const enabled = this.buildEnabled(plan);
+    const next: FeatureFlag = { plan, enabledFeatures: enabled, trialEndsAt: undefined };
+    await db.settings.put({ id: `flags-${employeeId}`, value: next });
+    return next;
   }
 }

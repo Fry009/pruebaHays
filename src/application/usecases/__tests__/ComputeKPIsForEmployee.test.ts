@@ -4,7 +4,7 @@ import { CheckSessionRepository, JobRepository, KpiRepository } from '@core/port
 
 class InMemoryJobs implements JobRepository {
   constructor(private jobs: ServiceJob[]) {}
-  listJobsForEmployee(): Promise<ServiceJob[]> {
+  listJobsForEmployee(_employeeId: string): Promise<ServiceJob[]> {
     return Promise.resolve(this.jobs);
   }
   getJob(): Promise<ServiceJob | undefined> {
@@ -46,7 +46,7 @@ describe('ComputeKPIsForEmployee', () => {
         type: 'hogar',
         scheduledAt: new Date().toISOString(),
         status: 'done',
-        price: 50,
+        price: { amount: 50, currency: 'EUR' },
         durationEstimate: 60
       }
     ];

@@ -7,6 +7,7 @@ import '../components/ac-photo-uploader';
 import '../components/ac-checklist';
 import '../components/ac-timer';
 import '../components/ac-modal';
+import '../components/ac-icon';
 import {
   addEvidence,
   exportPdf,
@@ -15,7 +16,8 @@ import {
   startCheckIn,
   updateChecklist,
   stopCheckOut,
-  subscribe
+  subscribe,
+  startTrial
 } from '../state/store';
 import { ChecklistItem, ServiceJob } from '@core/entities/types';
 import dayjs from 'dayjs';
@@ -34,12 +36,11 @@ export class JobDetailPage extends BaseComponent {
 
   async connectedCallback() {
     super.connectedCallback();
-    this.jobId = this.jobId || '';
+    this.jobId = this.jobId || window.location.pathname.split('/').pop() || '';
     this.evidenceChecklist = [];
     this.timerStart = '';
     this.clientName = '';
     this.showPremium = false;
-    this.jobId = this.jobId || window.location.pathname.split('/').pop() || '';
     this.unsub = subscribe((s) => {
       this.job = s.jobs.find((j) => j.id === this.jobId);
     });
@@ -74,17 +75,17 @@ export class JobDetailPage extends BaseComponent {
   render() {
     if (!this.job) return html`<p class="p-4">Cargando...</p>`;
     return html`
-      <section class="p-4 pb-28 space-y-3">
+      <section class="space-y-3">
         <header class="flex items-center justify-between">
           <div>
             <p class="text-xs text-slate-500">${dayjs(this.job.scheduledAt).format('DD MMM HH:mm')}</p>
             <h2 class="text-xl font-bold">${this.clientName || this.job.clientId}</h2>
-            <p class="text-sm text-slate-500">${this.job.type}</p>
+            <p class="text-sm text-slate-500 capitalize">${this.job.type}</p>
           </div>
           <button class="text-sky-500" @click=${() => (this.showPremium = true)}>Premium</button>
         </header>
         <ac-card>
-          <div class="flex justify-between items-center">
+          <div class="flex justify-between items-center gap-3">
             <ac-timer start=${this.timerStart} .running=${true}></ac-timer>
             <div class="space-y-2">
               <ac-button @click=${this.onStart} style="width:150px">Iniciar</ac-button>
@@ -119,18 +120,28 @@ export class JobDetailPage extends BaseComponent {
           ></textarea>
           <button class="text-sky-500" @click=${() => exportPdf(this.jobId)}>Exportar PDF (Pro)</button>
         </ac-card>
-        <ac-card>
-          <h3 class="font-semibold mb-2">Mapa & QR (stub)</h3>
-          <div class="bg-slate-100 h-32 rounded-xl flex items-center justify-center">🗺️ Mapa mini</div>
-          <div class="bg-slate-100 h-20 mt-2 rounded-xl flex items-center justify-center">
-            ✅ QR de confirmación
-          </div>
-        </ac-card>
       </section>
-      <ac-tabs value="jobs"></ac-tabs>
-      <ac-modal .open=${this.showPremium} title="Premium">
-        <p>Desbloquea exportar PDF, KPIs avanzados, ranking y tips smart.</p>
-        <ac-button @click=${() => (this.showPremium = false)}>Cerrar</ac-button>
+      <ac-modal .open=${this.showPremium} title="Prueba Premium">
+        <div class="space-y-2">
+          <p>Desbloquea exportar PDF, KPIs avanzados, ranking y tips smart.</p>
+          <ul class="text-sm text-slate-700 space-y-1">
+            <li class="flex items-center gap-2"><ac-icon name="check" size="16"></ac-icon> KPIs avanzados y ranking</li>
+            <li class="flex items-center gap-2"><ac-icon name="check" size="16"></ac-icon> Prioridad en Mercado</li>
+            <li class="flex items-center gap-2"><ac-icon name="check" size="16"></ac-icon> Informe PDF firmado</li>
+          </ul>
+          <div class="flex gap-2 mt-3">
+            <button
+              class="flex-1 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-400 to-sky-500 text-white font-semibold shadow"
+              @click=${startTrial}
+            >
+              Probar 7 días
+            </button>
+            <button class="flex-1 px-4 py-2 rounded-full bg-slate-100 text-slate-700 font-semibold" @click=${() =>
+              (this.showPremium = false)}>
+              Luego
+            </button>
+          </div>
+        </div>
       </ac-modal>
     `;
   }

@@ -1,5 +1,15 @@
 export type PremiumPlan = 'FREE' | 'PRO_EMPLOYEE' | 'PRO_TEAM';
 
+export interface Money {
+  amount: number;
+  currency: 'EUR';
+}
+
+export interface Rating {
+  value: number; // 0-5
+  votes: number;
+}
+
 export interface Employee {
   id: string;
   name: string;
@@ -34,7 +44,7 @@ export interface ServiceJob {
   type: JobType;
   scheduledAt: string;
   status: JobStatus;
-  price: number;
+  price: Money;
   durationEstimate: number;
   notes?: string;
 }
@@ -85,13 +95,25 @@ export interface KPI {
 export interface FeatureFlag {
   plan: PremiumPlan;
   enabledFeatures: string[];
+  trialEndsAt?: string;
 }
 
 export interface Lead {
   id: string;
-  source: string;
-  url: string;
+  source: LeadSource;
   title: string;
+  description?: string;
+  url: string;
   location: string;
-  price: number;
+  price: Money;
+  distanceKm: number;
+  postedHoursAgo: number;
+  type: JobType;
+  status: LeadStatus;
+  saved?: boolean;
+  notes?: string;
+  createdAt: string;
 }
+
+export type LeadSource = 'milanuncios' | 'indeed' | 'jobtoday' | 'domestiko' | 'otros';
+export type LeadStatus = 'unhandled' | 'saved' | 'discarded';

@@ -23,7 +23,7 @@ let state: AppState = {
   kpis: [],
   leads: [],
   syncing: false,
-  settings: { theme: 'light', language: 'es', demoMode: true, accent: 'ocean' }
+  settings: { theme: 'light', language: 'es', demoMode: true, accent: 'ocean', plan: 'FREE' }
 };
 
 const listeners = new Set<Listener>();
@@ -46,10 +46,10 @@ export async function initStore() {
   const employee = await container.repos.employeeRepo.getEmployee('emp-1');
   const jobs = await container.repos.jobRepo.listJobsForEmployee('emp-1');
   const kpis = await container.repos.kpiRepo.listByEmployee('emp-1');
-  const leads = await container.repos.leadRepo.list();
+  const leads = await container.usecases.listLeads.execute();
   const settings = await container.repos.settingsRepo.getSettings();
   const flags = await container.repos.flagRepo.getPlan('emp-1');
-   applyAccentClass(settings.accent);
+  applyAccentClass(settings.accent);
   setState({ ready: true, employee, jobs, kpis, leads, settings, flags });
 }
 
@@ -119,7 +119,18 @@ function applyAccentClass(accent: AppSettings['accent']) {
 export async function upgrade(plan: FeatureFlag['plan']) {
   const container = await containerPromise!;
   const flags = await container.usecases.upgrade.execute('emp-1', plan);
-  setState({ flags });
+  const settings = { ...state.settings, plan };
+  await container.repos.settingsRepo.saveSettings(settings);
+  setState({ flags, settings });
+}
+
+export async function startTrial() {
+  const container = await containerPromise!;
+  const trialEndsAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+  const flags = await container.usecases.upgrade.execute('emp-1', 'PRO_EMPLOYEE');
+  const settings = { ...state.settings, plan: 'PRO_EMPLOYEE', trialEndsAt };
+  await container.repos.settingsRepo.saveSettings(settings);
+  setState({ flags: { ...flags, trialEndsAt }, settings });
 }
 
 export async function importLead(leadId: string, clientId: string) {
@@ -127,6 +138,42 @@ export async function importLead(leadId: string, clientId: string) {
   await container.usecases.importLead.execute(leadId, 'emp-1', clientId);
   const jobs = await container.repos.jobRepo.listJobsForEmployee('emp-1');
   setState({ jobs });
+}
+
+export async function listLeads(filters?: { status?: Lead['status']; source?: string; type?: string }) {
+  const container = await containerPromise!;
+  const leads = await container.usecases.listLeads.execute(filters);
+  setState({ leads });
+}
+
+export async function refreshLeads() {
+  const container = await containerPromise!;
+  const leads = await container.usecases.refreshLeads.execute();
+  setState({ leads });
+}
+
+export async function saveLead(leadId: string) {
+  const container = await containerPromise!;
+  await container.usecases.saveLead.execute(leadId);
+  const leads = await container.usecases.listLeads.execute();
+  setState({ leads });
+}
+
+export async function discardLead(leadId: string) {
+  const container = await containerPromise!;
+  await container.usecases.discardLead.execute(leadId);
+  const leads = await container.usecases.listLeads.execute();
+  setState({ leads });
+}
+
+export async function convertLead(leadId: string) {
+  const container = await containerPromise!;
+  await container.usecases.convertLead.execute(leadId, 'emp-1');
+  const [jobs, leads] = await Promise.all([
+    container.repos.jobRepo.listJobsForEmployee('emp-1'),
+    container.usecases.listLeads.execute()
+  ]);
+  setState({ jobs, leads });
 }
 
 export function clearError() {

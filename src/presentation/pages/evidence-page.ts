@@ -3,7 +3,6 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { BaseComponent } from '../components/base';
 import { getEvidence } from '../state/store';
 import '../components/ac-card';
-import '../components/ac-checklist';
 
 @customElement('evidence-page')
 export class EvidencePage extends BaseComponent {
@@ -13,10 +12,9 @@ export class EvidencePage extends BaseComponent {
 
   async connectedCallback() {
     super.connectedCallback();
-    this.jobId = this.jobId || '';
+    this.jobId = this.jobId || window.location.pathname.split('/').pop() || '';
     this.before = [];
     this.after = [];
-    this.jobId = this.jobId || window.location.pathname.split('/').pop() || '';
     const evidence = await getEvidence(this.jobId);
     this.before = evidence?.beforePhotos || [];
     this.after = evidence?.afterPhotos || [];
@@ -24,7 +22,7 @@ export class EvidencePage extends BaseComponent {
 
   render() {
     return html`
-      <section class="p-4 space-y-3 pb-20">
+      <section class="space-y-3 pb-20">
         <h2 class="text-xl font-bold">Evidencias</h2>
         <ac-card>
           <h3 class="font-semibold mb-2">Antes</h3>

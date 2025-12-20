@@ -19,11 +19,12 @@ export class AcKpiTile extends BaseComponent {
     .tile {
       padding: 14px;
       border-radius: 16px;
-      background: #f8fafc;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(236, 245, 255, 0.9));
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid #e2e8f0;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 18px 40px rgba(14, 165, 233, 0.12);
     }
     .value {
       font-size: 22px;
@@ -32,17 +33,22 @@ export class AcKpiTile extends BaseComponent {
     .trend {
       font-size: 12px;
       color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
   `;
 
   render() {
-    const trendIcon = this.trend === 'up' ? '⬆' : this.trend === 'down' ? '⬇' : '➖';
+    const trendIcon = this.trend === 'up' ? 'check' : this.trend === 'down' ? 'x' : 'minus';
     return html`<div class="tile">
       <div>
         <p class="text-sm text-slate-500">${this.label}</p>
         <p class="value">${this.value}</p>
       </div>
-      <span class="trend">${trendIcon}</span>
+      <span class="trend">
+        <ac-icon name=${trendIcon as any} size="18"></ac-icon>
+      </span>
     </div>`;
   }
 }

@@ -7,6 +7,8 @@ import {
   FeatureFlag,
   KPI,
   Lead,
+  LeadStatus,
+  PremiumPlan,
   ServiceJob
 } from '../entities/types';
 
@@ -52,8 +54,11 @@ export interface OutboxRepository {
 }
 
 export interface LeadRepository {
-  list(): Promise<Lead[]>;
+  list(filters?: { status?: LeadStatus; source?: string; type?: string }): Promise<Lead[]>;
   save(lead: Lead): Promise<void>;
+  bulkSave(leads: Lead[]): Promise<void>;
+  markStatus(id: string, status: LeadStatus): Promise<Lead | undefined>;
+  convertToJob(id: string, job: ServiceJob): Promise<void>;
 }
 
 export interface SettingsRepository {
@@ -79,6 +84,9 @@ export interface AppSettings {
   language: 'es' | 'en';
   demoMode: boolean;
   accent: 'ocean' | 'forest' | 'sunset';
+  plan: PremiumPlan;
+  trialEndsAt?: string;
+  referralCode?: string;
 }
 
 export interface PdfExporter {

@@ -2,10 +2,15 @@ import { AddEvidencePhoto } from '@application/usecases/AddEvidencePhoto';
 import { CaptureClientSignature } from '@application/usecases/CaptureClientSignature';
 import { CompleteChecklist } from '@application/usecases/CompleteChecklist';
 import { ComputeKPIsForEmployee } from '@application/usecases/ComputeKPIsForEmployee';
+import { ConvertLeadToJob } from '@application/usecases/ConvertLeadToJob';
 import { ExportJobReportPDF } from '@application/usecases/ExportJobReportPDF';
 import { ImportLeadAsJob } from '@application/usecases/ImportLeadAsJob';
+import { DiscardLead } from '@application/usecases/DiscardLead';
 import { ListJobsForEmployee } from '@application/usecases/ListJobsForEmployee';
+import { ListLeads } from '@application/usecases/ListLeads';
 import { StartJobCheckIn } from '@application/usecases/StartJobCheckIn';
+import { RefreshLeads } from '@application/usecases/RefreshLeads';
+import { SaveLead } from '@application/usecases/SaveLead';
 import { StopJobCheckOut } from '@application/usecases/StopJobCheckOut';
 import { SyncPendingOperations } from '@application/usecases/SyncPendingOperations';
 import { UpgradeToPremium } from '@application/usecases/UpgradeToPremium';
@@ -63,7 +68,12 @@ export async function buildContainer() {
       syncOps: new SyncPendingOperations(outboxRepo, fakeApi),
       upgrade: new UpgradeToPremium(flagRepo),
       exportPdf: new ExportJobReportPDF(pdfExporter, jobRepo, evidenceRepo),
-      importLead: new ImportLeadAsJob(leadRepo, jobRepo)
+      importLead: new ImportLeadAsJob(leadRepo, jobRepo),
+      listLeads: new ListLeads(leadRepo),
+      refreshLeads: new RefreshLeads(leadRepo),
+      saveLead: new SaveLead(leadRepo),
+      discardLead: new DiscardLead(leadRepo),
+      convertLead: new ConvertLeadToJob(leadRepo, jobRepo)
     },
     adapters: {
       fakeApi

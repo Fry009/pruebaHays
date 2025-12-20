@@ -10,3 +10,5 @@ export * from './ac-kpi-tile';
 export * from './ac-photo-uploader';
 export * from './ac-checklist';
 export * from './ac-timer';
+export * from './ac-icon';
+export * from './ac-skeleton';

@@ -23,17 +23,25 @@ export class AppDatabase extends Dexie {
 
   constructor() {
     super('clean-today-db');
-    this.version(1).stores({
-      jobs: 'id, employeeId, status',
-      employees: 'id',
-      clients: 'id',
-      sessions: 'jobId',
-      evidences: 'jobId',
-      kpis: '++id, employeeId',
-      outbox: 'id, type',
-      leads: 'id',
-      settings: 'id'
-    });
+    this.version(2)
+      .stores({
+        jobs: 'id, employeeId, status',
+        employees: 'id',
+        clients: 'id',
+        sessions: 'jobId',
+        evidences: 'jobId',
+        kpis: '++id, employeeId',
+        outbox: 'id, type',
+        leads: 'id, status, source, type',
+        settings: 'id'
+      })
+      .upgrade(async (tx) => {
+        await tx.table('jobs').clear();
+        await tx.table('leads').clear();
+        await tx.table('sessions').clear();
+        await tx.table('evidences').clear();
+        await tx.table('kpis').clear();
+      });
   }
 }
 
