@@ -1,9 +1,8 @@
-import { css, html } from 'lit';
+import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { BaseComponent } from './base';
 
 @customElement('ac-modal')
-export class AcModal extends BaseComponent {
+export class AcModal extends LitElement {
   static properties = {
     open: { type: Boolean, reflect: true },
     title: { type: String }

@@ -1,9 +1,9 @@
-import { LeadRepository, JobRepository } from '@core/ports/repositories';
 import { ServiceJob } from '@core/entities/types';
+import { JobRepository,LeadRepository } from '@core/ports/repositories';
 import { v4 as uuid } from 'uuid';
 
 export class ConvertLeadToJob {
-  constructor(private readonly leadRepo: LeadRepository, private readonly _jobRepo: JobRepository) {}
+  constructor(private readonly leadRepo: LeadRepository, private readonly jobRepo: JobRepository) {}
 
   async execute(leadId: string, employeeId: string): Promise<ServiceJob | undefined> {
     const lead = (await this.leadRepo.list()).find((l) => l.id === leadId);
@@ -19,6 +19,7 @@ export class ConvertLeadToJob {
       durationEstimate: 90,
       notes: lead.title
     };
+    await this.jobRepo.saveJob(job);
     await this.leadRepo.convertToJob(leadId, job);
     return job;
   }

@@ -1,5 +1,6 @@
-import { FeatureFlagRepository } from '@core/ports/repositories';
 import { FeatureFlag } from '@core/entities/types';
+import { FeatureFlagRepository } from '@core/ports/repositories';
+
 import { db } from '../storage/dexieClient';
 
 export class LocalFeatureFlagRepository implements FeatureFlagRepository {

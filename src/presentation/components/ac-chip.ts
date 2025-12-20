@@ -1,14 +1,20 @@
-import { css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from './base';
+import { css, html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('ac-chip')
-export class AcChip extends BaseComponent {
-  @property({ type: String }) declare color: 'blue' | 'green' | 'amber' | 'gray';
+export class AcChip extends LitElement {
+  static properties = {
+    color: { type: String },
+    selected: { type: Boolean }
+  };
+
+  declare color: 'blue' | 'green' | 'amber' | 'gray' | 'neutral';
+  declare selected: boolean;
 
   constructor() {
     super();
     this.color = 'blue';
+    this.selected = false;
   }
 
   static styles = css`
@@ -23,28 +29,47 @@ export class AcChip extends BaseComponent {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      box-shadow: 0 10px 30px rgba(14, 165, 233, 0.12);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 22px rgba(2, 6, 23, 0.06);
+      cursor: pointer;
+      background: var(--surface-strong);
+      color: var(--text);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
     .blue {
-      background: linear-gradient(180deg, #e0f2fe, #e0f2fecc);
-      color: #0369a1;
+      background: color-mix(in srgb, var(--accent) 14%, var(--surface-strong) 86%);
+      border-color: color-mix(in srgb, var(--accent) 28%, var(--border) 72%);
+      color: var(--accent-strong);
     }
     .green {
-      background: linear-gradient(180deg, #dcfce7, #dcfce7cc);
-      color: #16a34a;
+      background: color-mix(in srgb, #22c55e 14%, var(--surface-strong) 86%);
+      border-color: color-mix(in srgb, #22c55e 26%, var(--border) 74%);
+      color: #15803d;
     }
     .amber {
-      background: linear-gradient(180deg, #fef3c7, #fde68acc);
+      background: color-mix(in srgb, #f59e0b 14%, var(--surface-strong) 86%);
+      border-color: color-mix(in srgb, #f59e0b 26%, var(--border) 74%);
       color: #b45309;
     }
     .gray {
-      background: linear-gradient(180deg, #e2e8f0, #e2e8f0cc);
-      color: #1e293b;
+      background: var(--surface-strong);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    .neutral {
+      background: var(--surface-strong);
+      color: var(--muted);
+      border-color: var(--border);
+    }
+    .selected {
+      outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent 30%);
+      color: var(--accent-strong);
     }
   `;
 
   render() {
-    return html`<span class="chip ${this.color}"><slot></slot></span>`;
+    const classes = ['chip', this.color, this.selected ? 'selected' : ''].join(' ');
+    return html`<span class=${classes}><slot></slot></span>`;
   }
 }

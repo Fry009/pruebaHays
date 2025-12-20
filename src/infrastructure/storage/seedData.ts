@@ -1,4 +1,5 @@
 import demoData from '@shared/demoData';
+
 import { db } from './dexieClient';
 
 export async function seedDatabase() {
@@ -7,13 +8,7 @@ export async function seedDatabase() {
   try {
     await db.transaction(
       'rw',
-      db.jobs,
-      db.clients,
-      db.employees,
-      db.evidences,
-      db.leads,
-      db.sessions,
-      db.kpis,
+      [db.jobs, db.clients, db.employees, db.evidences, db.leads, db.sessions, db.kpis],
       async () => {
         await db.employees.bulkAdd(demoData.employees);
         await db.clients.bulkAdd(demoData.clients);
@@ -30,13 +25,7 @@ export async function seedDatabase() {
     await db.open();
     await db.transaction(
       'rw',
-      db.jobs,
-      db.clients,
-      db.employees,
-      db.evidences,
-      db.leads,
-      db.sessions,
-      db.kpis,
+      [db.jobs, db.clients, db.employees, db.evidences, db.leads, db.sessions, db.kpis],
       async () => {
         await db.employees.bulkAdd(demoData.employees);
         await db.clients.bulkAdd(demoData.clients);

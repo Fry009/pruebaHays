@@ -1,5 +1,6 @@
-import { LeadRepository } from '@core/ports/repositories';
 import { Lead, LeadStatus, ServiceJob } from '@core/entities/types';
+import { LeadRepository } from '@core/ports/repositories';
+
 import { db } from '../storage/dexieClient';
 
 export class LocalLeadRepository implements LeadRepository {

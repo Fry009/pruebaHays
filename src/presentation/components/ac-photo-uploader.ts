@@ -1,11 +1,16 @@
+import './ac-icon';
+
 import imageCompression from 'browser-image-compression';
-import { css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { BaseComponent } from './base';
+import { css, html, LitElement } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 
 @customElement('ac-photo-uploader')
-export class AcPhotoUploader extends BaseComponent {
-  @property({ type: String }) declare label: string;
+export class AcPhotoUploader extends LitElement {
+  static properties = {
+    label: { type: String }
+  };
+
+  declare label: string;
   @state() declare loading: boolean;
 
   constructor() {
@@ -15,16 +20,26 @@ export class AcPhotoUploader extends BaseComponent {
   }
 
   static styles = css`
+    :host {
+      display: inline-block;
+    }
     label {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       padding: 10px 12px;
-      border: 1px dashed var(--accent);
-      border-radius: 12px;
+      border: 1px dashed color-mix(in srgb, var(--primary1) 65%, transparent 35%);
+      border-radius: 14px;
       cursor: pointer;
-      font-weight: 600;
-      color: var(--accent);
+      font-weight: 700;
+      color: var(--accent-strong);
+      background: color-mix(in srgb, var(--surface) 70%, white 30%);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(10px);
+      user-select: none;
+    }
+    input {
+      display: none;
     }
   `;
 
@@ -40,8 +55,9 @@ export class AcPhotoUploader extends BaseComponent {
 
   render() {
     return html`<label>
-      📷 ${this.loading ? 'Cargando...' : this.label}
-      <input type="file" accept="image/*" @change=${this.onChange} style="display:none" />
+      <ac-icon name="plus" size="16" color="var(--accent-strong)"></ac-icon>
+      ${this.loading ? 'Cargando…' : this.label}
+      <input type="file" accept="image/*" @change=${this.onChange} />
     </label>`;
   }
 }

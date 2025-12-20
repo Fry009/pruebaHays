@@ -1,7 +1,9 @@
+import '../components/ac-card';
+
 import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
+
 import { BaseComponent } from '../components/base';
-import '../components/ac-card';
 
 @customElement('clients-page')
 export class ClientsPage extends BaseComponent {

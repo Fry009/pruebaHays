@@ -1,8 +1,11 @@
-import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
 import './ac-icon';
 
-type TabItem = { label: string; icon: string; path: string };
+import { css,html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
+
+import type { IconName } from './ac-icon';
+
+type TabItem = { label: string; icon: IconName; path: string };
 
 const tabs: TabItem[] = [
   { label: 'Hoy', icon: 'home', path: '/' },
@@ -42,9 +45,9 @@ export class AcTabbar extends LitElement {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid var(--card-border);
-      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.08);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
       backdrop-filter: blur(18px);
       border-radius: 999px;
       padding: 8px;
@@ -87,9 +90,9 @@ export class AcTabbar extends LitElement {
               @click=${() => this.navigate(tab.path)}
             >
               <ac-icon
-                name=${tab.icon as any}
+                .name=${tab.icon}
                 size="18"
-                color=${this.activePath === tab.path ? '#fff' : 'var(--accent-strong)'}
+                color=${this.activePath === tab.path ? '#fff' : 'var(--muted)'}
               ></ac-icon>
               <span>${tab.label}</span>
             </button>`

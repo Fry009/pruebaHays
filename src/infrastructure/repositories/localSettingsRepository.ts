@@ -1,4 +1,5 @@
 import { AppSettings, SettingsRepository } from '@core/ports/repositories';
+
 import { db } from '../storage/dexieClient';
 
 const defaultSettings: AppSettings = {

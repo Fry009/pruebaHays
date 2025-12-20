@@ -1,5 +1,5 @@
-import { FeatureFlagRepository } from '@core/ports/repositories';
 import { FeatureFlag } from '@core/entities/types';
+import { FeatureFlagRepository } from '@core/ports/repositories';
 
 export class UpgradeToPremium {
   constructor(private readonly flags: FeatureFlagRepository) {}

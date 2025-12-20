@@ -1,11 +1,15 @@
-import { css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { BaseComponent } from './base';
+import { css, html, LitElement } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 
 @customElement('ac-toast')
-export class AcToast extends BaseComponent {
-  @property({ type: String }) declare message: string;
-  @property({ type: String }) declare variant: 'info' | 'error' | 'success';
+export class AcToast extends LitElement {
+  static properties = {
+    message: { type: String },
+    variant: { type: String }
+  };
+
+  declare message: string;
+  declare variant: 'info' | 'error' | 'success';
   @state() declare visible: boolean;
 
   constructor() {
@@ -27,7 +31,7 @@ export class AcToast extends BaseComponent {
     .toast {
       padding: 12px 16px;
       border-radius: 12px;
-      background: #0ea5e9;
+      background: linear-gradient(120deg, var(--primary0), var(--primary1));
       color: white;
       min-width: 240px;
       box-shadow: 0 12px 32px rgba(15, 23, 42, 0.25);
@@ -40,7 +44,7 @@ export class AcToast extends BaseComponent {
       transform: translateY(0);
     }
     .error {
-      background: #ef4444;
+      background: var(--danger);
     }
     .success {
       background: #22c55e;

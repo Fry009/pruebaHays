@@ -1,11 +1,14 @@
 import { ChecklistItem } from '@core/entities/types';
-import { css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from './base';
+import { css, html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('ac-checklist')
-export class AcChecklist extends BaseComponent {
-  @property({ type: Array }) declare items: ChecklistItem[];
+export class AcChecklist extends LitElement {
+  static properties = {
+    items: { type: Array }
+  };
+
+  declare items: ChecklistItem[];
 
   constructor() {
     super();
@@ -13,16 +16,37 @@ export class AcChecklist extends BaseComponent {
   }
 
   static styles = css`
+    :host {
+      display: block;
+      color: var(--text);
+    }
     .item {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 0;
-      border-bottom: 1px dashed #e2e8f0;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed color-mix(in srgb, var(--border) 80%, transparent 20%);
+    }
+    .item:last-child {
+      border-bottom: none;
     }
     input {
       width: 18px;
       height: 18px;
+      margin-top: 2px;
+      accent-color: var(--primary1);
+    }
+    .label {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .required {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 2px;
+      font-size: 12px;
+      color: color-mix(in srgb, var(--danger) 70%, var(--text) 30%);
+      font-weight: 700;
     }
   `;
 
@@ -37,8 +61,8 @@ export class AcChecklist extends BaseComponent {
       (item) => html`<div class="item">
         <input type="checkbox" ?checked=${item.done} @change=${() => this.toggle(item)} />
         <div>
-          <p class="font-semibold">${item.label}</p>
-          ${item.required ? html`<small class="text-amber-500">Obligatorio</small>` : null}
+          <div class="label">${item.label}</div>
+          ${item.required ? html`<div class="required">Obligatorio</div>` : null}
         </div>
       </div>`
     )}`;

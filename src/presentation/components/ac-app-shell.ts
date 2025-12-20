@@ -1,7 +1,8 @@
-import { html, LitElement, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
 import './ac-drawer';
 import './ac-tabbar';
+
+import { css,html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('ac-app-shell')
 export class AcAppShell extends LitElement {
@@ -21,14 +22,24 @@ export class AcAppShell extends LitElement {
     .layout {
       display: grid;
       grid-template-columns: 0fr 1fr;
+      gap: 0;
     }
     .layout.desktop {
       grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: start;
     }
     .content {
       position: relative;
       min-height: 100vh;
       background: transparent;
+    }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.18);
+      backdrop-filter: blur(10px);
+      z-index: 40;
     }
     @media (min-width: 900px) {
       .drawer-overlay {
@@ -50,23 +61,31 @@ export class AcAppShell extends LitElement {
 
   render() {
     const isDesktop = window.matchMedia('(min-width: 900px)').matches;
+    const handleNavigate = (e: CustomEvent<string>) => {
+      this.dispatchEvent(new CustomEvent('navigate', { detail: e.detail }));
+      if (!isDesktop) this.toggleDrawer(false);
+    };
     return html`
       <div class="layout ${isDesktop ? 'desktop' : ''}">
         <ac-drawer
           .open=${this.drawerOpen || isDesktop}
           .persistent=${isDesktop}
           .activePath=${this.activePath}
-          @navigate=${(e: CustomEvent<string>) => this.dispatchEvent(new CustomEvent('navigate', { detail: e.detail }))}
+          @navigate=${handleNavigate}
           @close=${() => this.toggleDrawer(false)}
         ></ac-drawer>
         <div class="content">
           ${!isDesktop && this.drawerOpen
-            ? html`<div class="drawer-overlay fixed inset-0 bg-black/20 backdrop-blur" @click=${() => this.toggleDrawer(false)}></div>`
+            ? html`<div
+                class="drawer-overlay overlay"
+                aria-hidden="true"
+                @click=${() => this.toggleDrawer(false)}
+              ></div>`
             : null}
           <slot></slot>
           <ac-tabbar
             .activePath=${this.activePath}
-            @navigate=${(e: CustomEvent<string>) => this.dispatchEvent(new CustomEvent('navigate', { detail: e.detail }))}
+            @navigate=${handleNavigate}
           ></ac-tabbar>
         </div>
       </div>

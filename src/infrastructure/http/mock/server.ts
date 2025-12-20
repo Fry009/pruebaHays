@@ -1,5 +1,6 @@
-import { db } from '../../storage/dexieClient';
 import demoData from '@shared/demoData';
+
+import { db } from '../../storage/dexieClient';
 
 let enabled = false;
 

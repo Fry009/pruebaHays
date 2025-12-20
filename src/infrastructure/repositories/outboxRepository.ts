@@ -1,4 +1,5 @@
 import { OutboxRepository, PendingOperation } from '@core/ports/repositories';
+
 import { db } from '../storage/dexieClient';
 
 export class OutboxDexieRepository implements OutboxRepository {

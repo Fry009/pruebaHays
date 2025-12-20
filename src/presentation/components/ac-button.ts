@@ -1,43 +1,74 @@
-import { css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from './base';
+import { css, html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('ac-button')
-export class AcButton extends BaseComponent {
-  @property({ type: String }) declare variant: 'primary' | 'ghost';
-  @property({ type: Boolean, reflect: true }) declare disabled: boolean;
+export class AcButton extends LitElement {
+  static properties = {
+    variant: { type: String },
+    disabled: { type: Boolean, reflect: true },
+    block: { type: Boolean, reflect: true }
+  };
+
+  declare variant: 'primary' | 'ghost' | 'secondary';
+  declare disabled: boolean;
+  declare block: boolean;
 
   constructor() {
     super();
     this.variant = 'primary';
     this.disabled = false;
+    this.block = false;
   }
 
   static styles = css`
+    :host {
+      display: inline-block;
+    }
     :host button {
-      width: 100%;
-      border-radius: 14px;
+      width: auto;
+      border-radius: 999px;
       padding: 12px 14px;
       font-weight: 600;
       border: none;
       cursor: pointer;
-      transition: transform 0.1s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+    :host([block]) {
+      display: block;
+    }
+    :host([block]) button {
+      width: 100%;
     }
     :host button:active {
-      transform: translateY(1px);
+      transform: translateY(1px) scale(0.99);
     }
     :host([disabled]) button {
       opacity: 0.5;
       cursor: not-allowed;
     }
     .primary {
-      background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+      background: linear-gradient(120deg, var(--primary0), var(--primary1));
       color: white;
+      box-shadow: 0 10px 24px rgba(14, 165, 233, 0.2);
+    }
+    .primary:hover {
+      filter: brightness(1.02);
+      box-shadow: 0 14px 30px rgba(14, 165, 233, 0.24);
+    }
+    .secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
     }
     .ghost {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      color: inherit;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
     }
   `;
 

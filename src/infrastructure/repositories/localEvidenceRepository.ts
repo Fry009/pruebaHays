@@ -1,5 +1,6 @@
-import { EvidenceRepository } from '@core/ports/repositories';
 import { Evidence } from '@core/entities/types';
+import { EvidenceRepository } from '@core/ports/repositories';
+
 import { db } from '../storage/dexieClient';
 
 export class LocalEvidenceRepository implements EvidenceRepository {

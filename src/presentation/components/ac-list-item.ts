@@ -1,7 +1,8 @@
-import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
 import './ac-chip';
 import './ac-button';
+
+import { css,html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('ac-list-item')
 export class AcListItem extends LitElement {
@@ -38,12 +39,17 @@ export class AcListItem extends LitElement {
     .item {
       border-radius: 16px;
       padding: 14px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      box-shadow: 0 12px 30px rgba(14, 165, 233, 0.1);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
       display: flex;
       gap: 12px;
       align-items: center;
+    }
+    .head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .content {
       flex: 1;
@@ -53,16 +59,16 @@ export class AcListItem extends LitElement {
     }
     .title {
       font-weight: 700;
-      color: var(--text-strong);
+      color: var(--text);
     }
     .subtitle,
     .meta {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--muted);
     }
     .price {
       font-weight: 800;
-      color: #dc2626;
+      color: var(--accent-strong);
     }
     .actions {
       display: flex;
@@ -86,7 +92,7 @@ export class AcListItem extends LitElement {
     return html`
       <div class="item">
         <div class="content">
-          <div class="flex items-center gap-2">
+          <div class="head">
             ${this.badge ? html`<ac-chip color="gray">${this.badge}</ac-chip>` : null}
             <span class="title">${this.title}</span>
           </div>

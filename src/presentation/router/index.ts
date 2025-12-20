@@ -1,4 +1,3 @@
-import { Router } from '@vaadin/router';
 import '../pages/home-page';
 import '../pages/jobs-page';
 import '../pages/job-detail-page';
@@ -10,6 +9,8 @@ import '../pages/premium-page';
 import '../pages/history-page';
 import '../pages/clients-page';
 import '../pages/help-page';
+
+import { Router } from '@vaadin/router';
 
 export function createRouter(outlet: Element) {
   const router = new Router(outlet);

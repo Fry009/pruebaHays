@@ -1,7 +1,7 @@
-import { LitElement, html, svg } from 'lit';
+import { css,html, LitElement, svg } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-type IconName =
+export type IconName =
   | 'home'
   | 'briefcase'
   | 'graph'
@@ -72,9 +72,16 @@ export class AcIcon extends LitElement {
     this.color = 'currentColor';
   }
 
-  protected createRenderRoot() {
-    return this;
-  }
+  static styles = css`
+    :host {
+      display: inline-flex;
+      line-height: 0;
+      vertical-align: middle;
+    }
+    svg {
+      display: block;
+    }
+  `;
 
   render() {
     const path = paths[this.name] ?? paths.home;

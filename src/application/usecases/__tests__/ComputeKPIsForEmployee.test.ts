@@ -1,6 +1,7 @@
-import { ComputeKPIsForEmployee } from '../ComputeKPIsForEmployee';
-import { CheckInSession, ServiceJob } from '@core/entities/types';
+import { CheckInSession, KPI, ServiceJob } from '@core/entities/types';
 import { CheckSessionRepository, JobRepository, KpiRepository } from '@core/ports/repositories';
+
+import { ComputeKPIsForEmployee } from '../ComputeKPIsForEmployee';
 
 class InMemoryJobs implements JobRepository {
   constructor(private jobs: ServiceJob[]) {}
@@ -26,12 +27,12 @@ class InMemorySessions implements CheckSessionRepository {
 }
 
 class InMemoryKpiRepo implements KpiRepository {
-  items: any[] = [];
-  save(kpi: any): Promise<void> {
+  items: KPI[] = [];
+  save(kpi: KPI): Promise<void> {
     this.items.push(kpi);
     return Promise.resolve();
   }
-  listByEmployee(): Promise<any[]> {
+  listByEmployee(_employeeId: string): Promise<KPI[]> {
     return Promise.resolve(this.items);
   }
 }

@@ -1,6 +1,6 @@
-import { buildContainer } from '@infrastructure/container';
-import { AppSettings } from '@core/ports/repositories';
 import { ChecklistItem, Employee, FeatureFlag, KPI, Lead, ServiceJob } from '@core/entities/types';
+import { AppSettings } from '@core/ports/repositories';
+import { buildContainer } from '@infrastructure/container';
 import { log } from '@shared/logger';
 
 type Listener = (state: AppState) => void;
@@ -96,8 +96,8 @@ export async function syncNow() {
 
 export async function toggleTheme() {
   const container = await containerPromise!;
-  const next = state.settings.theme === 'light' ? 'dark' : 'light';
-  const settings = { ...state.settings, theme: next };
+  const next: AppSettings['theme'] = state.settings.theme === 'light' ? 'dark' : 'light';
+  const settings: AppSettings = { ...state.settings, theme: next };
   await container.repos.settingsRepo.saveSettings(settings);
   document.documentElement.classList.toggle('dark', next === 'dark');
   setState({ settings });
@@ -105,7 +105,7 @@ export async function toggleTheme() {
 
 export async function setAccent(accent: AppSettings['accent']) {
   const container = await containerPromise!;
-  const settings = { ...state.settings, accent };
+  const settings: AppSettings = { ...state.settings, accent };
   await container.repos.settingsRepo.saveSettings(settings);
   applyAccentClass(accent);
   setState({ settings });
@@ -119,7 +119,7 @@ function applyAccentClass(accent: AppSettings['accent']) {
 export async function upgrade(plan: FeatureFlag['plan']) {
   const container = await containerPromise!;
   const flags = await container.usecases.upgrade.execute('emp-1', plan);
-  const settings = { ...state.settings, plan };
+  const settings: AppSettings = { ...state.settings, plan };
   await container.repos.settingsRepo.saveSettings(settings);
   setState({ flags, settings });
 }
@@ -128,7 +128,7 @@ export async function startTrial() {
   const container = await containerPromise!;
   const trialEndsAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
   const flags = await container.usecases.upgrade.execute('emp-1', 'PRO_EMPLOYEE');
-  const settings = { ...state.settings, plan: 'PRO_EMPLOYEE', trialEndsAt };
+  const settings: AppSettings = { ...state.settings, plan: 'PRO_EMPLOYEE', trialEndsAt };
   await container.repos.settingsRepo.saveSettings(settings);
   setState({ flags: { ...flags, trialEndsAt }, settings });
 }

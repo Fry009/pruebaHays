@@ -1,11 +1,14 @@
-import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
 import './ac-icon';
 import './ac-chip';
 
+import { css,html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
+
+import type { IconName } from './ac-icon';
+
 type DrawerItem = {
   label: string;
-  icon: string;
+  icon: IconName;
   path: string;
   badge?: string;
 };
@@ -51,10 +54,14 @@ export class AcDrawer extends LitElement {
     .drawer {
       width: 260px;
       height: 100vh;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(240, 249, 255, 0.92));
+      background: linear-gradient(
+        180deg,
+        var(--surface-strong),
+        color-mix(in srgb, var(--surface) 86%, white 14%)
+      );
       backdrop-filter: blur(16px);
-      border-right: 1px solid var(--card-border);
-      box-shadow: var(--card-shadow);
+      border-right: 1px solid var(--border);
+      box-shadow: var(--shadow);
       transform: translateX(-110%);
       transition: transform 0.25s ease;
       position: fixed;
@@ -86,6 +93,47 @@ export class AcDrawer extends LitElement {
       overflow-y: auto;
       flex: 1;
     }
+    .plan {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .name {
+      margin: 2px 0 0;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .meta-star {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #f59e0b;
+      font-weight: 700;
+    }
+    .item-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 650;
+    }
+    .count {
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 999px;
+      background: color-mix(in srgb, #fda4af 22%, var(--surface) 78%);
+      color: #be123c;
+      font-weight: 800;
+      border: 1px solid color-mix(in srgb, #fda4af 35%, transparent 65%);
+    }
     button.item {
       width: 100%;
       border: none;
@@ -95,15 +143,19 @@ export class AcDrawer extends LitElement {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: var(--text-strong);
+      color: var(--text);
       transition: background 0.15s ease, transform 0.1s ease;
     }
     button.item:hover {
-      background: rgba(14, 165, 233, 0.08);
+      background: color-mix(in srgb, var(--accent) 10%, transparent 90%);
     }
     button.item.active {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(56, 189, 248, 0.14));
-      box-shadow: 0 12px 24px rgba(14, 165, 233, 0.08);
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--primary0) 16%, transparent 84%),
+        color-mix(in srgb, var(--primary1) 16%, transparent 84%)
+      );
+      box-shadow: var(--shadow-soft);
     }
     .footer {
       padding: 12px 16px 18px;
@@ -111,7 +163,14 @@ export class AcDrawer extends LitElement {
       align-items: center;
       justify-content: space-between;
       font-size: 12px;
-      color: var(--text-muted);
+      color: var(--muted);
+    }
+    .logout {
+      border: none;
+      background: transparent;
+      color: var(--accent-strong);
+      cursor: pointer;
+      font-weight: 700;
     }
     @media (min-width: 900px) {
       .drawer {
@@ -132,11 +191,12 @@ export class AcDrawer extends LitElement {
         <div class="header">
           <img src="https://i.pravatar.cc/120?img=47" alt="avatar" />
           <div>
-            <p class="text-sm text-slate-500">Plan FREE</p>
-            <p class="font-semibold text-slate-900">Ana Campos</p>
-            <div class="flex items-center gap-4 text-xs text-slate-600">
-              <span class="flex items-center gap-1">
-                <ac-icon name="star" size="14" color="#f59e0b"></ac-icon> 4.5
+            <p class="plan">Plan FREE</p>
+            <p class="name">Ana Campos</p>
+            <div class="meta-row">
+              <span class="meta-star">
+                <ac-icon name="star" size="14" color="#f59e0b"></ac-icon>
+                4.5
               </span>
               <span>35</span>
             </div>
@@ -149,14 +209,12 @@ export class AcDrawer extends LitElement {
                 class="item ${this.activePath === item.path ? 'active' : ''}"
                 @click=${() => this.emitNavigate(item.path)}
               >
-                <span class="flex items-center gap-2">
-                  <ac-icon name=${item.icon as any} size="18"></ac-icon>
+                <span class="item-left">
+                  <ac-icon .name=${item.icon} size="18"></ac-icon>
                   ${item.label}
                 </span>
                 ${item.badge
-                  ? html`<span class="px-2 py-1 text-xs rounded-full bg-rose-100 text-rose-600 font-semibold">
-                      ${item.badge}
-                    </span>`
+                  ? html`<span class="count">${item.badge}</span>`
                   : html`<ac-icon name="chevron-right" size="14" color="#94a3b8"></ac-icon>`}
               </button>
             `
@@ -164,7 +222,7 @@ export class AcDrawer extends LitElement {
         </div>
         <div class="footer">
           <span>v1.0.0 beta</span>
-          <button class="text-sky-600 border-none bg-transparent" @click=${() => this.emitNavigate('/logout')}>
+          <button class="logout" @click=${() => this.emitNavigate('/logout')}>
             Salir
           </button>
         </div>

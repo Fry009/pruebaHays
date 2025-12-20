@@ -1,5 +1,5 @@
-import { LeadRepository } from '@core/ports/repositories';
 import { Lead } from '@core/entities/types';
+import { LeadRepository } from '@core/ports/repositories';
 
 export class SaveLead {
   constructor(private readonly repo: LeadRepository) {}

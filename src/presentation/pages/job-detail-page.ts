@@ -1,6 +1,3 @@
-import { html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { BaseComponent } from '../components/base';
 import '../components/ac-card';
 import '../components/ac-button';
 import '../components/ac-photo-uploader';
@@ -8,20 +5,24 @@ import '../components/ac-checklist';
 import '../components/ac-timer';
 import '../components/ac-modal';
 import '../components/ac-icon';
+
+import { ChecklistItem, ServiceJob } from '@core/entities/types';
+import { sanitizeText } from '@shared/sanitize';
+import dayjs from 'dayjs';
+import { html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+
+import { BaseComponent } from '../components/base';
 import {
   addEvidence,
   exportPdf,
   getClient,
   getEvidence,
   startCheckIn,
-  updateChecklist,
+  startTrial,
   stopCheckOut,
   subscribe,
-  startTrial
-} from '../state/store';
-import { ChecklistItem, ServiceJob } from '@core/entities/types';
-import dayjs from 'dayjs';
-import { sanitizeText } from '@shared/sanitize';
+  updateChecklist} from '../state/store';
 
 @customElement('job-detail-page')
 export class JobDetailPage extends BaseComponent {

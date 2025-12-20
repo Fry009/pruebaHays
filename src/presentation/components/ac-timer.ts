@@ -1,12 +1,16 @@
-import { css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { BaseComponent } from './base';
 import dayjs from 'dayjs';
+import { css, html, LitElement } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 
 @customElement('ac-timer')
-export class AcTimer extends BaseComponent {
-  @property({ type: String }) declare start: string;
-  @property({ type: Boolean }) declare running: boolean;
+export class AcTimer extends LitElement {
+  static properties = {
+    start: { type: String },
+    running: { type: Boolean }
+  };
+
+  declare start: string;
+  declare running: boolean;
   @state() declare now: number;
   private interval?: number;
 
@@ -45,6 +49,6 @@ export class AcTimer extends BaseComponent {
       .toString()
       .padStart(2, '0');
     const secs = (diff % 60).toString().padStart(2, '0');
-    return html`<div class="timer">⏱️ ${mins}:${secs}</div>`;
+    return html`<div class="timer">${mins}:${secs}</div>`;
   }
 }

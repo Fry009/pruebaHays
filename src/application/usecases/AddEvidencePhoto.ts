@@ -1,7 +1,7 @@
-import { EvidenceRepository, OutboxRepository } from '@core/ports/repositories';
 import { Evidence } from '@core/entities/types';
-import { v4 as uuid } from 'uuid';
+import { EvidenceRepository, OutboxRepository } from '@core/ports/repositories';
 import dayjs from 'dayjs';
+import { v4 as uuid } from 'uuid';
 
 export class AddEvidencePhoto {
   constructor(

@@ -1,5 +1,6 @@
-import { JobRepository } from '@core/ports/repositories';
 import { ServiceJob } from '@core/entities/types';
+import { JobRepository } from '@core/ports/repositories';
+
 import { db } from '../storage/dexieClient';
 
 export class LocalJobRepository implements JobRepository {

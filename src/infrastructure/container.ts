@@ -3,19 +3,20 @@ import { CaptureClientSignature } from '@application/usecases/CaptureClientSigna
 import { CompleteChecklist } from '@application/usecases/CompleteChecklist';
 import { ComputeKPIsForEmployee } from '@application/usecases/ComputeKPIsForEmployee';
 import { ConvertLeadToJob } from '@application/usecases/ConvertLeadToJob';
+import { DiscardLead } from '@application/usecases/DiscardLead';
 import { ExportJobReportPDF } from '@application/usecases/ExportJobReportPDF';
 import { ImportLeadAsJob } from '@application/usecases/ImportLeadAsJob';
-import { DiscardLead } from '@application/usecases/DiscardLead';
 import { ListJobsForEmployee } from '@application/usecases/ListJobsForEmployee';
 import { ListLeads } from '@application/usecases/ListLeads';
-import { StartJobCheckIn } from '@application/usecases/StartJobCheckIn';
 import { RefreshLeads } from '@application/usecases/RefreshLeads';
 import { SaveLead } from '@application/usecases/SaveLead';
+import { StartJobCheckIn } from '@application/usecases/StartJobCheckIn';
 import { StopJobCheckOut } from '@application/usecases/StopJobCheckOut';
 import { SyncPendingOperations } from '@application/usecases/SyncPendingOperations';
 import { UpgradeToPremium } from '@application/usecases/UpgradeToPremium';
-import { JsPdfExporter } from './adapters/pdfExporter';
+
 import { FakeApiAdapter } from './adapters/fakeApiAdapter';
+import { JsPdfExporter } from './adapters/pdfExporter';
 import { LocalClientRepository } from './repositories/localClientRepository';
 import { LocalEmployeeRepository } from './repositories/localEmployeeRepository';
 import { LocalEvidenceRepository } from './repositories/localEvidenceRepository';

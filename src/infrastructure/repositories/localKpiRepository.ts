@@ -1,5 +1,6 @@
-import { KpiRepository } from '@core/ports/repositories';
 import { KPI } from '@core/entities/types';
+import { KpiRepository } from '@core/ports/repositories';
+
 import { db } from '../storage/dexieClient';
 
 export class LocalKpiRepository implements KpiRepository {

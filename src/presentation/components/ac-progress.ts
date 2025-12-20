@@ -1,10 +1,13 @@
-import { css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from './base';
+import { css, html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('ac-progress')
-export class AcProgress extends BaseComponent {
-  @property({ type: Number }) declare value: number;
+export class AcProgress extends LitElement {
+  static properties = {
+    value: { type: Number }
+  };
+
+  declare value: number;
 
   constructor() {
     super();
@@ -12,20 +15,24 @@ export class AcProgress extends BaseComponent {
   }
 
   static styles = css`
+    :host {
+      display: block;
+    }
     .bar {
-      background: #e2e8f0;
+      background: color-mix(in srgb, var(--border) 40%, transparent 60%);
       height: 10px;
-      border-radius: 10px;
+      border-radius: 999px;
       overflow: hidden;
     }
     .fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+      background: linear-gradient(90deg, var(--primary0), var(--primary1));
       transition: width 0.2s ease;
     }
   `;
 
   render() {
-    return html`<div class="bar"><div class="fill" style="width:${this.value}%"></div></div>`;
+    const safe = Math.max(0, Math.min(100, this.value));
+    return html`<div class="bar"><div class="fill" style="width:${safe}%"></div></div>`;
   }
 }

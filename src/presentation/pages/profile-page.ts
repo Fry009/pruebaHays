@@ -1,13 +1,15 @@
-import { html } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
-import { BaseComponent } from '../components/base';
-import '../components/ac-card';
 import '../components/ac-badge';
 import '../components/ac-button';
+import '../components/ac-card';
 import '../components/ac-chip';
 import '../components/ac-icon';
-import { getState, setAccent, subscribe, toggleTheme, upgrade, startTrial } from '../state/store';
+
+import { html } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 import { v4 as uuid } from 'uuid';
+
+import { BaseComponent } from '../components/base';
+import { getState, setAccent, startTrial, subscribe, toggleTheme, upgrade } from '../state/store';
 
 @customElement('profile-page')
 export class ProfilePage extends BaseComponent {
@@ -20,9 +22,10 @@ export class ProfilePage extends BaseComponent {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.employee = getState().employee;
-    this.flags = getState().flags;
-    this.settings = getState().settings;
+    const state = getState();
+    this.employee = state.employee;
+    this.flags = state.flags;
+    this.settings = state.settings;
     this.referral = this.settings.referralCode || uuid().slice(0, 6).toUpperCase();
     this.unsub = subscribe((s) => {
       this.employee = s.employee;
@@ -35,70 +38,99 @@ export class ProfilePage extends BaseComponent {
     this.unsub?.();
   }
 
+  private themeLabel() {
+    return this.settings.theme === 'dark' ? 'Oscuro' : 'Claro';
+  }
+
+  private badgeTone(color: string): 'green' | 'blue' | 'yellow' {
+    if (color === 'blue' || color === 'yellow') return color;
+    return 'green';
+  }
+
   render() {
+    const plan = this.flags?.plan ?? 'FREE';
+    const accent = this.settings.accent;
     return html`
-      <section class="space-y-3">
-        <ac-card>
+      <section class="space-y-3 fade-up max-w-[520px] mx-auto">
+        <ac-card variant="glass">
           <div class="flex items-center gap-3">
             <img class="w-14 h-14 rounded-full" src=${this.employee?.avatar} alt="avatar" />
-            <div>
-              <p class="font-bold">${this.employee?.name}</p>
-              <p class="text-xs text-slate-500">Nivel ${this.employee?.level} · ${this.employee?.ratingAvg}★</p>
+            <div class="flex-1">
+              <p class="font-extrabold text-strong">${this.employee?.name ?? '—'}</p>
+              <p class="text-xs text-muted">
+                Nivel ${this.employee?.level ?? '—'} · ${this.employee?.ratingAvg ?? '—'}★
+              </p>
             </div>
-            <ac-chip color="blue">${this.flags?.plan ?? 'FREE'}</ac-chip>
+            <ac-chip color="blue">${plan}</ac-chip>
           </div>
           <div class="mt-3 flex gap-2 flex-wrap">
             ${this.employee?.badges.map(
-              (badge) => html`<ac-badge label=${badge.label} color=${badge.color as any}></ac-badge>`
+              (badge) =>
+                html`<ac-badge .label=${badge.label} .color=${this.badgeTone(badge.color)}></ac-badge>`
             )}
           </div>
         </ac-card>
 
-        <ac-card>
-          <h3 class="font-semibold mb-2">Premium</h3>
-          <p class="text-sm text-slate-500">
-            Desbloquea exportar PDF, historial clientes, KPIs avanzados, ranking y smart tips.
+        <ac-card variant="glass">
+          <h3 class="font-semibold">Premium</h3>
+          <p class="text-sm text-muted mt-1">
+            Desbloquea exportar PDF, historial de clientes, KPIs avanzados, ranking y smart tips.
           </p>
-          <div class="flex gap-2 mt-3">
-            <ac-button @click=${() => upgrade('PRO_EMPLOYEE')}>Activar Pro</ac-button>
-            <ac-button variant="ghost" @click=${startTrial}>Probar 7 días</ac-button>
+          <div class="grid grid-cols-2 gap-2 mt-3">
+            <ac-button block @click=${() => upgrade('PRO_EMPLOYEE')}>Activar PRO</ac-button>
+            <ac-button block variant="ghost" @click=${startTrial}>Probar 7 días</ac-button>
           </div>
         </ac-card>
 
-        <ac-card>
+        <ac-card variant="glass">
           <div class="flex items-center justify-between">
-            <span>Tema</span>
-            <button class="text-sky-500" @click=${toggleTheme}>${this.settings.theme}</button>
+            <span class="font-semibold">Tema</span>
+            <button class="chip-btn" @click=${toggleTheme}>${this.themeLabel()}</button>
           </div>
           <div class="mt-3">
-            <p class="text-sm text-slate-500 mb-2">Colores</p>
+            <p class="text-sm text-muted mb-2">Colores</p>
             <div class="flex gap-2">
-              ${['ocean', 'forest', 'sunset'].map(
-                (theme) => html`<button
-                  class="px-3 py-2 rounded-xl border ${this.settings.accent === theme
-                    ? 'border-sky-500'
-                    : 'border-slate-200'}"
-                  @click=${() => setAccent(theme as any)}
-                >
-                  ${theme}
-                </button>`
-              )}
+              <button
+                class="chip-btn ${accent === 'ocean' ? 'selected' : ''}"
+                @click=${() => setAccent('ocean')}
+              >
+                Océano
+              </button>
+              <button
+                class="chip-btn ${accent === 'forest' ? 'selected' : ''}"
+                @click=${() => setAccent('forest')}
+              >
+                Bosque
+              </button>
+              <button
+                class="chip-btn ${accent === 'sunset' ? 'selected' : ''}"
+                @click=${() => setAccent('sunset')}
+              >
+                Atardecer
+              </button>
             </div>
           </div>
         </ac-card>
 
-        <ac-card>
-          <div class="flex items-center gap-2">
-            <ac-icon name="sparkle" size="20" color="#f59e0b"></ac-icon>
+        <ac-card variant="glass">
+          <div class="flex items-center gap-3">
+            <div class="icon-btn" aria-hidden="true">
+              <ac-icon name="sparkle" size="18" color="var(--accent-strong)"></ac-icon>
+            </div>
             <div>
-              <p class="font-semibold text-slate-800">Invita amigos</p>
-              <p class="text-sm text-slate-600">Comparte y consigue 20% OFF Premium.</p>
+              <p class="font-semibold">Invita amigos</p>
+              <p class="text-sm text-muted">Comparte y consigue 20% OFF en Premium.</p>
             </div>
           </div>
-          <div class="mt-2 flex items-center gap-2">
-            <code class="px-3 py-2 rounded-lg bg-white/70 border">${this.referral}</code>
+          <div class="mt-3 flex items-center gap-2">
+            <code
+              class="px-3 py-2 rounded-xl border text-sm font-semibold"
+              style="border-color: var(--border); background: var(--surface-strong); color: var(--text);"
+              >${this.referral}</code
+            >
             <button
-              class="px-3 py-2 rounded-full bg-slate-900 text-white text-sm font-semibold"
+              class="px-3 py-2 rounded-full text-white font-bold shadow active:scale-95 transition"
+              style="background: linear-gradient(120deg, var(--primary-start), var(--primary-end));"
               @click=${() => navigator.clipboard.writeText(this.referral)}
             >
               Copiar

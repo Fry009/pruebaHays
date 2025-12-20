@@ -1,4 +1,3 @@
-import Dexie, { Table } from 'dexie';
 import {
   CheckInSession,
   Client,
@@ -6,9 +5,10 @@ import {
   Evidence,
   KPI,
   Lead,
-  PendingOperation,
   ServiceJob
 } from '@core/entities/types';
+import { PendingOperation } from '@core/ports/repositories';
+import Dexie, { Table } from 'dexie';
 
 export class AppDatabase extends Dexie {
   jobs!: Table<ServiceJob, string>;

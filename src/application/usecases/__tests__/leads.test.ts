@@ -1,11 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { LeadRepository, JobRepository } from '@core/ports/repositories';
 import { Lead, LeadStatus, ServiceJob } from '@core/entities/types';
+import { JobRepository,LeadRepository } from '@core/ports/repositories';
+import { beforeEach,describe, expect, it } from 'vitest';
+
+import { ConvertLeadToJob } from '../ConvertLeadToJob';
+import { DiscardLead } from '../DiscardLead';
 import { ListLeads } from '../ListLeads';
 import { RefreshLeads } from '../RefreshLeads';
 import { SaveLead } from '../SaveLead';
-import { DiscardLead } from '../DiscardLead';
-import { ConvertLeadToJob } from '../ConvertLeadToJob';
 
 const euro = (amount: number) => ({ amount, currency: 'EUR' as const });
 
@@ -33,7 +34,7 @@ class InMemoryLeadRepo implements LeadRepository {
     lead.status = status;
     return lead;
   }
-  async convertToJob(id: string, job: ServiceJob): Promise<void> {
+  async convertToJob(id: string, _job: ServiceJob): Promise<void> {
     const lead = this.leads.find((l) => l.id === id);
     if (lead) lead.status = 'saved';
     // job persistence handled by job repo in tests

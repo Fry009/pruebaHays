@@ -1,5 +1,5 @@
-import { JobRepository } from '@core/ports/repositories';
 import { ServiceJob } from '@core/entities/types';
+import { JobRepository } from '@core/ports/repositories';
 
 export class ListJobsForEmployee {
   constructor(private readonly jobs: JobRepository) {}

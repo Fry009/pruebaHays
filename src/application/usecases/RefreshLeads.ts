@@ -1,5 +1,5 @@
-import { LeadRepository } from '@core/ports/repositories';
 import { Lead } from '@core/entities/types';
+import { LeadRepository } from '@core/ports/repositories';
 import { v4 as uuid } from 'uuid';
 
 const euro = (amount: number) => ({ amount, currency: 'EUR' as const });

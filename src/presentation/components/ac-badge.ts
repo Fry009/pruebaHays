@@ -1,11 +1,15 @@
-import { css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from './base';
+import { css, html, LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('ac-badge')
-export class AcBadge extends BaseComponent {
-  @property({ type: String }) declare label: string;
-  @property({ type: String }) declare color: 'green' | 'blue' | 'yellow';
+export class AcBadge extends LitElement {
+  static properties = {
+    label: { type: String },
+    color: { type: String }
+  };
+
+  declare label: string;
+  declare color: 'green' | 'blue' | 'yellow';
 
   constructor() {
     super();
@@ -18,29 +22,33 @@ export class AcBadge extends BaseComponent {
       display: inline-block;
     }
     .badge {
-      padding: 4px 8px;
-      border-radius: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
       display: inline-flex;
-      gap: 4px;
+      gap: 6px;
       align-items: center;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
     .green {
-      background: #dcfce7;
+      background: color-mix(in srgb, #dcfce7 85%, white 15%);
       color: #166534;
     }
     .blue {
-      background: #dbeafe;
+      background: color-mix(in srgb, #dbeafe 85%, white 15%);
       color: #1d4ed8;
     }
     .yellow {
-      background: #fef9c3;
+      background: color-mix(in srgb, #fef9c3 85%, white 15%);
       color: #854d0e;
     }
   `;
 
   render() {
-    return html`<span class="badge ${this.color}">⭐ ${this.label}</span>`;
+    return html`<span class="badge ${this.color}">${this.label}</span>`;
   }
 }

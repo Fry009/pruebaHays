@@ -1,5 +1,6 @@
-import { ClientRepository } from '@core/ports/repositories';
 import { Client } from '@core/entities/types';
+import { ClientRepository } from '@core/ports/repositories';
+
 import { db } from '../storage/dexieClient';
 
 export class LocalClientRepository implements ClientRepository {

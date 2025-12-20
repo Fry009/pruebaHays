@@ -1,5 +1,5 @@
-import { LeadRepository, JobRepository } from '@core/ports/repositories';
 import { ServiceJob } from '@core/entities/types';
+import { JobRepository,LeadRepository } from '@core/ports/repositories';
 import dayjs from 'dayjs';
 import { v4 as uuid } from 'uuid';
 

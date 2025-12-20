@@ -1,5 +1,4 @@
 import {
-  ChecklistItem,
   CheckInSession,
   Client,
   Employee,

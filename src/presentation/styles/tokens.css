@@ -1,0 +1,82 @@
+:root {
+  /* Base (Light) */
+  --bg0: #f5fbff;
+  --bg1: #e9fbf7;
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-strong: rgba(255, 255, 255, 0.96);
+  --border: rgba(15, 23, 42, 0.1);
+  --shadow: 0 1px 0 rgba(15, 23, 42, 0.03), 0 18px 52px rgba(2, 6, 23, 0.09);
+  --shadow-soft: 0 12px 28px rgba(2, 6, 23, 0.07);
+  --shadow-strong: 0 28px 80px rgba(2, 6, 23, 0.14);
+  --text: #0f172a;
+  --muted: rgba(15, 23, 42, 0.62);
+  --primary0: #2dd4bf;
+  --primary1: #0ea5e9;
+  --danger: #ef4444;
+
+  /* Aliases used across the app */
+  --bg-gradient-start: var(--bg0);
+  --bg-gradient-end: var(--bg1);
+  --card-bg: var(--surface);
+  --card-border: var(--border);
+  --card-shadow: var(--shadow);
+  --text-strong: var(--text);
+  --text-muted: var(--muted);
+  --primary-start: var(--primary0);
+  --primary-end: var(--primary1);
+  --accent: var(--primary1);
+  --accent-strong: color-mix(in srgb, var(--accent) 88%, black 12%);
+  --accent-weak: color-mix(in srgb, var(--accent) 16%, white 84%);
+  --ring: color-mix(in srgb, var(--accent) 40%, transparent 60%);
+}
+
+[data-theme='dark'],
+.dark {
+  /* Base (Dark) */
+  --bg0: #0b1223;
+  --bg1: #0f172a;
+  --surface: rgba(17, 24, 39, 0.78);
+  --surface-strong: rgba(17, 24, 39, 0.88);
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 22px 60px rgba(0, 0, 0, 0.42);
+  --shadow-soft: 0 16px 44px rgba(0, 0, 0, 0.34);
+  --shadow-strong: 0 34px 90px rgba(0, 0, 0, 0.55);
+  --text: #f8fafc;
+  --muted: rgba(226, 232, 240, 0.7);
+  --primary0: #22d3ee;
+  --primary1: #0ea5e9;
+  --danger: #f87171;
+
+  /* Aliases */
+  --bg-gradient-start: var(--bg0);
+  --bg-gradient-end: var(--bg1);
+  --card-bg: var(--surface);
+  --card-border: var(--border);
+  --card-shadow: var(--shadow);
+  --text-strong: var(--text);
+  --text-muted: var(--muted);
+  --primary-start: var(--primary0);
+  --primary-end: var(--primary1);
+  --accent: var(--primary1);
+  --accent-strong: color-mix(in srgb, var(--accent) 78%, white 22%);
+  --accent-weak: color-mix(in srgb, var(--accent) 22%, black 78%);
+  --ring: color-mix(in srgb, var(--accent) 55%, transparent 45%);
+}
+
+.theme-ocean {
+  --primary0: #2dd4bf;
+  --primary1: #0ea5e9;
+  --accent: var(--primary1);
+}
+
+.theme-forest {
+  --primary0: #22c55e;
+  --primary1: #06b6d4;
+  --accent: var(--primary0);
+}
+
+.theme-sunset {
+  --primary0: #f97316;
+  --primary1: #f43f5e;
+  --accent: var(--primary0);
+}
