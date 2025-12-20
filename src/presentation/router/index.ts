@@ -1,0 +1,22 @@
+import { Router } from '@vaadin/router';
+import '../pages/home-page';
+import '../pages/jobs-page';
+import '../pages/job-detail-page';
+import '../pages/evidence-page';
+import '../pages/kpis-page';
+import '../pages/profile-page';
+import '../pages/leads-page';
+
+export function createRouter(outlet: Element) {
+  const router = new Router(outlet);
+  router.setRoutes([
+    { path: '/', component: 'home-page' },
+    { path: '/jobs', component: 'jobs-page' },
+    { path: '/jobs/:id', component: 'job-detail-page' },
+    { path: '/jobs/:id/evidence', component: 'evidence-page' },
+    { path: '/kpis', component: 'kpis-page' },
+    { path: '/profile', component: 'profile-page' },
+    { path: '/leads', component: 'leads-page' }
+  ]);
+  return router;
+}
