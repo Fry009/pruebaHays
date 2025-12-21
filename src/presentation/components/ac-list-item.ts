@@ -41,7 +41,7 @@ export class AcListItem extends LitElement {
       padding: 14px;
       background: var(--surface);
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
+      box-shadow: none;
       display: flex;
       gap: 12px;
       align-items: center;
@@ -77,14 +77,14 @@ export class AcListItem extends LitElement {
       align-items: flex-end;
     }
     button.cta {
-      border: none;
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border) 78%);
       border-radius: 12px;
       padding: 8px 12px;
-      background: linear-gradient(120deg, var(--primary-start), var(--primary-end));
-      color: white;
-      font-weight: 700;
+      background: color-mix(in srgb, var(--accent) 10%, var(--surface) 90%);
+      color: var(--accent-strong);
+      font-weight: 650;
       cursor: pointer;
-      box-shadow: 0 8px 18px rgba(14, 165, 233, 0.18);
+      box-shadow: none;
     }
   `;
 

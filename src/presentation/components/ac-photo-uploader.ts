@@ -28,15 +28,18 @@ export class AcPhotoUploader extends LitElement {
       align-items: center;
       gap: 10px;
       padding: 10px 12px;
-      border: 1px dashed color-mix(in srgb, var(--primary1) 65%, transparent 35%);
+      border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--border) 55%);
       border-radius: 14px;
       cursor: pointer;
-      font-weight: 700;
-      color: var(--accent-strong);
-      background: color-mix(in srgb, var(--surface) 70%, white 30%);
-      box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(10px);
+      font-weight: 650;
+      color: var(--text);
+      background: var(--surface);
+      box-shadow: none;
       user-select: none;
+    }
+    label:hover {
+      background: color-mix(in srgb, var(--accent) 6%, var(--surface) 94%);
+      border-color: color-mix(in srgb, var(--accent) 60%, var(--border) 40%);
     }
     input {
       display: none;

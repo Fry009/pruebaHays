@@ -166,8 +166,8 @@ export class LeadsPage extends BaseComponent {
                       </div>
                       <div class="flex items-center gap-2">
                         <a
-                          class="px-3 py-2 rounded-full text-white font-bold shadow active:scale-95 transition"
-                          style="background: linear-gradient(120deg, var(--primary-start), var(--primary-end));"
+                          class="px-3 py-2 rounded-full text-white font-semibold active:scale-95 transition"
+                          style="background: var(--accent);"
                           href=${lead.url}
                           target="_blank"
                           rel="noreferrer"

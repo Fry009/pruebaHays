@@ -27,13 +27,13 @@ export class AcKpiTile extends LitElement {
   static styles = css`
     .tile {
       padding: 14px;
-      border-radius: 16px;
-      background: var(--surface-strong);
+      border-radius: 14px;
+      background: var(--surface);
       display: flex;
       justify-content: space-between;
       align-items: center;
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
+      box-shadow: none;
     }
     .label {
       font-size: 12px;
@@ -42,7 +42,7 @@ export class AcKpiTile extends LitElement {
     }
     .value {
       font-size: 22px;
-      font-weight: 800;
+      font-weight: 650;
     }
     .trend {
       font-size: 12px;

@@ -30,9 +30,7 @@ export class AcBadge extends LitElement {
       gap: 6px;
       align-items: center;
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
+      box-shadow: none;
     }
     .green {
       background: color-mix(in srgb, #dcfce7 85%, white 15%);

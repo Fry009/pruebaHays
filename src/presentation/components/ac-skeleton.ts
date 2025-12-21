@@ -25,21 +25,15 @@ export class AcSkeleton extends LitElement {
       display: inline-block;
     }
     .block {
-      background: linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--surface-strong) 92%, black 8%),
-        var(--surface-strong),
-        color-mix(in srgb, var(--surface-strong) 92%, black 8%)
-      );
-      background-size: 200% 100%;
-      animation: shimmer 1.4s ease-in-out infinite;
+      background: color-mix(in srgb, var(--surface-strong) 92%, black 8%);
+      animation: pulse 1.25s ease-in-out infinite;
     }
-    @keyframes shimmer {
+    @keyframes pulse {
       0% {
-        background-position: 200% 0;
+        opacity: 0.65;
       }
       100% {
-        background-position: -200% 0;
+        opacity: 1;
       }
     }
   `;

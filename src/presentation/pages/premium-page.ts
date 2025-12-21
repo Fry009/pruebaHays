@@ -30,12 +30,12 @@ export class PremiumPage extends BaseComponent {
     return html`
       <div
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
-        style="background: rgba(2, 6, 23, 0.18); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);"
+        style="background: rgba(15, 23, 42, 0.22);"
         @click=${this.close}
       >
         <div
-          class="relative w-full max-w-[420px] rounded-[26px] border p-5 shadow"
-          style="background: linear-gradient(160deg, color-mix(in srgb, var(--surface-strong) 92%, white 8%), var(--surface)); border-color: var(--border); box-shadow: var(--shadow-strong);"
+          class="relative w-full max-w-[420px] rounded-[18px] border p-5"
+          style="background: var(--surface); border-color: var(--border); box-shadow: var(--shadow-strong);"
           @click=${(e: Event) => e.stopPropagation()}
         >
           <button class="icon-btn absolute right-4 top-4" aria-label="Cerrar" @click=${this.close}>
@@ -45,10 +45,10 @@ export class PremiumPage extends BaseComponent {
           <div class="flex items-center justify-center">
             <div
               class="w-14 h-14 rounded-2xl flex items-center justify-center"
-              style="background: linear-gradient(135deg, color-mix(in srgb, #fbbf24 40%, white 60%), color-mix(in srgb, #fb7185 35%, white 65%)); box-shadow: 0 18px 40px rgba(251, 113, 133, 0.25);"
+              style="background: color-mix(in srgb, var(--warning) 14%, var(--surface) 86%); border: 1px solid color-mix(in srgb, var(--warning) 22%, var(--border) 78%);"
               aria-hidden="true"
             >
-              <ac-icon name="trophy" size="26" color="#7c2d12"></ac-icon>
+              <ac-icon name="trophy" size="26" color="var(--warning)"></ac-icon>
             </div>
           </div>
 
@@ -59,7 +59,7 @@ export class PremiumPage extends BaseComponent {
 
           <div
             class="mt-4 rounded-2xl border p-4"
-            style="background: var(--surface); border-color: var(--border); box-shadow: var(--shadow-soft);"
+            style="background: var(--surface); border-color: var(--border);"
           >
             <p class="font-semibold">Beneficios</p>
             <ul class="mt-3 space-y-2 text-sm">
@@ -84,7 +84,7 @@ export class PremiumPage extends BaseComponent {
 
           <button
             class="mt-4 w-full px-4 py-3 rounded-full text-white font-extrabold shadow active:scale-95 transition"
-            style="background: linear-gradient(120deg, var(--primary-start), var(--primary-end)); box-shadow: 0 18px 44px rgba(14,165,233,0.22);"
+            style="background: var(--accent);"
             @click=${isPro ? this.close : startTrial}
           >
             ${isPro ? '¡Ya eres PRO!' : 'Mejorar ahora →'}
@@ -94,7 +94,7 @@ export class PremiumPage extends BaseComponent {
 
           <button
             class="mt-3 w-full px-4 py-3 rounded-full font-bold border active:scale-95 transition"
-            style="background: var(--surface-strong); border-color: var(--border); color: var(--text); box-shadow: var(--shadow-soft);"
+            style="background: var(--surface); border-color: var(--border); color: var(--text);"
             @click=${isPro ? this.close : () => upgrade('PRO_EMPLOYEE')}
           >
             Ver plan PRO
