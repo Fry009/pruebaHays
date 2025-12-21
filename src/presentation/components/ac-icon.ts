@@ -24,7 +24,8 @@ export type IconName =
   | 'bolt'
   | 'info'
   | 'map-pin'
-  | 'minus';
+  | 'minus'
+  | 'more-vertical';
 
 const paths: Record<IconName, ReturnType<typeof svg>> = {
   home: svg`<path stroke-linecap="round" stroke-linejoin="round" d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>`,
@@ -49,7 +50,8 @@ const paths: Record<IconName, ReturnType<typeof svg>> = {
   bolt: svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 3 6 13h4v8l6-10h-4z"/>`,
   info: svg`<circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-5m0-3h.01"/>`,
   'map-pin': svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 21s7-6.2 7-11.2A7 7 0 0 0 5 9.8C5 14.8 12 21 12 21Z"/><circle cx="12" cy="10" r="3"/>`,
-  minus: svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 12h12"/>`
+  minus: svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 12h12"/>`,
+  'more-vertical': svg`<circle cx="12" cy="5.5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="18.5" r="1.5"/>`
 };
 
 @customElement('ac-icon')

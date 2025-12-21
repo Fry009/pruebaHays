@@ -28,14 +28,15 @@ export class AcButton extends LitElement {
       width: auto;
       border-radius: 999px;
       padding: 12px 14px;
-      font-weight: 600;
-      border: none;
+      font-weight: 650;
+      border: 1px solid transparent;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      transition: transform 0.12s ease, background-color 0.2s ease, border-color 0.2s ease,
+        filter 0.2s ease;
     }
     :host([block]) {
       display: block;
@@ -51,24 +52,26 @@ export class AcButton extends LitElement {
       cursor: not-allowed;
     }
     .primary {
-      background: linear-gradient(120deg, var(--primary0), var(--primary1));
+      background: var(--accent);
       color: white;
-      box-shadow: 0 10px 24px rgba(14, 165, 233, 0.2);
     }
     .primary:hover {
-      filter: brightness(1.02);
-      box-shadow: 0 14px 30px rgba(14, 165, 233, 0.24);
+      filter: brightness(0.98);
     }
     .secondary {
-      background: white;
+      background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
     }
     .ghost {
       background: transparent;
       border: 1px solid var(--border);
       color: var(--text);
+    }
+    .ghost:hover,
+    .secondary:hover {
+      background: color-mix(in srgb, var(--accent) 6%, var(--surface) 94%);
+      border-color: color-mix(in srgb, var(--accent) 22%, var(--border) 78%);
     }
   `;
 

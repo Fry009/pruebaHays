@@ -1,6 +1,5 @@
 import '../components/ac-badge';
 import '../components/ac-button';
-import '../components/ac-card';
 import '../components/ac-chip';
 import '../components/ac-icon';
 
@@ -9,7 +8,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { v4 as uuid } from 'uuid';
 
 import { BaseComponent } from '../components/base';
-import { getState, setAccent, startTrial, subscribe, toggleTheme, upgrade } from '../state/store';
+import { getState, startTrial, subscribe, upgrade } from '../state/store';
 
 @customElement('profile-page')
 export class ProfilePage extends BaseComponent {
@@ -38,27 +37,27 @@ export class ProfilePage extends BaseComponent {
     this.unsub?.();
   }
 
-  private themeLabel() {
-    return this.settings.theme === 'dark' ? 'Oscuro' : 'Claro';
-  }
-
   private badgeTone(color: string): 'green' | 'blue' | 'yellow' {
     if (color === 'blue' || color === 'yellow') return color;
     return 'green';
   }
 
+  private go(path: string) {
+    window.history.pushState({}, '', path);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  }
+
   render() {
     const plan = this.flags?.plan ?? 'FREE';
-    const accent = this.settings.accent;
     return html`
-      <section class="space-y-3 fade-up max-w-[520px] mx-auto">
-        <ac-card variant="glass">
+      <section class="space-y-3 fade-up max-w-[560px] mx-auto">
+        <div class="rounded-2xl p-4" style="background: var(--surface); border: 1px solid var(--border);">
           <div class="flex items-center gap-3">
-            <img class="w-14 h-14 rounded-full" src=${this.employee?.avatar} alt="avatar" />
-            <div class="flex-1">
-              <p class="font-extrabold text-strong">${this.employee?.name ?? '—'}</p>
+            <img class="w-14 h-14 rounded-full" style="border: 1px solid var(--border);" src=${this.employee?.avatar} alt="avatar" />
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-strong truncate">${this.employee?.name ?? '—'}</p>
               <p class="text-xs text-muted">
-                Nivel ${this.employee?.level ?? '—'} · ${this.employee?.ratingAvg ?? '—'}★
+                Nivel ${this.employee?.level ?? '—'} · ${this.employee?.ratingAvg ?? '—'}
               </p>
             </div>
             <ac-chip color="blue">${plan}</ac-chip>
@@ -69,75 +68,57 @@ export class ProfilePage extends BaseComponent {
                 html`<ac-badge .label=${badge.label} .color=${this.badgeTone(badge.color)}></ac-badge>`
             )}
           </div>
-        </ac-card>
+        </div>
 
-        <ac-card variant="glass">
+        <div class="rounded-2xl p-4" style="background: var(--surface); border: 1px solid var(--border);">
           <h3 class="font-semibold">Premium</h3>
           <p class="text-sm text-muted mt-1">
-            Desbloquea exportar PDF, historial de clientes, KPIs avanzados, ranking y smart tips.
+            Desbloquea exportar PDF, historial de clientes, KPIs avanzados y ranking.
           </p>
           <div class="grid grid-cols-2 gap-2 mt-3">
             <ac-button block @click=${() => upgrade('PRO_EMPLOYEE')}>Activar PRO</ac-button>
             <ac-button block variant="ghost" @click=${startTrial}>Probar 7 días</ac-button>
           </div>
-        </ac-card>
+        </div>
 
-        <ac-card variant="glass">
+        <div class="rounded-2xl p-4" style="background: var(--surface); border: 1px solid var(--border);">
           <div class="flex items-center justify-between">
-            <span class="font-semibold">Tema</span>
-            <button class="chip-btn" @click=${toggleTheme}>${this.themeLabel()}</button>
-          </div>
-          <div class="mt-3">
-            <p class="text-sm text-muted mb-2">Colores</p>
-            <div class="flex gap-2">
-              <button
-                class="chip-btn ${accent === 'ocean' ? 'selected' : ''}"
-                @click=${() => setAccent('ocean')}
-              >
-                Océano
-              </button>
-              <button
-                class="chip-btn ${accent === 'forest' ? 'selected' : ''}"
-                @click=${() => setAccent('forest')}
-              >
-                Bosque
-              </button>
-              <button
-                class="chip-btn ${accent === 'sunset' ? 'selected' : ''}"
-                @click=${() => setAccent('sunset')}
-              >
-                Atardecer
-              </button>
+            <div>
+              <p class="font-semibold">Ajustes</p>
+              <p class="text-sm text-muted">Tema y colores</p>
             </div>
+            <button class="chip-btn" @click=${() => this.go('/settings')}>
+              <span class="inline-flex items-center gap-2">
+                <ac-icon name="shield" size="16"></ac-icon>
+                Abrir
+              </span>
+            </button>
           </div>
-        </ac-card>
+        </div>
 
-        <ac-card variant="glass">
+        <div class="rounded-2xl p-4" style="background: var(--surface); border: 1px solid var(--border);">
           <div class="flex items-center gap-3">
             <div class="icon-btn" aria-hidden="true">
               <ac-icon name="sparkle" size="18" color="var(--accent-strong)"></ac-icon>
             </div>
-            <div>
+            <div class="flex-1">
               <p class="font-semibold">Invita amigos</p>
-              <p class="text-sm text-muted">Comparte y consigue 20% OFF en Premium.</p>
+              <p class="text-sm text-muted">Comparte y consigue descuento en Premium.</p>
             </div>
           </div>
           <div class="mt-3 flex items-center gap-2">
             <code
-              class="px-3 py-2 rounded-xl border text-sm font-semibold"
-              style="border-color: var(--border); background: var(--surface-strong); color: var(--text);"
+              class="px-3 py-2 rounded-xl text-sm font-semibold"
+              style="border: 1px solid var(--border); background: var(--surface-strong); color: var(--text);"
               >${this.referral}</code
             >
-            <button
-              class="px-3 py-2 rounded-full text-white font-bold shadow active:scale-95 transition"
-              style="background: linear-gradient(120deg, var(--primary-start), var(--primary-end));"
-              @click=${() => navigator.clipboard.writeText(this.referral)}
+            <ac-button variant="secondary" @click=${() => navigator.clipboard.writeText(this.referral)}
+              >Copiar</ac-button
             >
-              Copiar
-            </button>
           </div>
-        </ac-card>
+        </div>
       </section>
     `;
   }
 }
+

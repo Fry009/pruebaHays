@@ -33,7 +33,7 @@ export class AcTabbar extends LitElement {
     }
     nav {
       position: fixed;
-      bottom: 12px;
+      bottom: 8px;
       left: 0;
       right: 0;
       display: flex;
@@ -47,10 +47,9 @@ export class AcTabbar extends LitElement {
       gap: 6px;
       background: var(--surface);
       border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
+      box-shadow: none;
       border-radius: 999px;
-      padding: 8px;
+      padding: 6px;
       min-width: 320px;
       max-width: 420px;
     }
@@ -62,17 +61,23 @@ export class AcTabbar extends LitElement {
       display: inline-flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
       color: var(--text-muted);
       font-weight: 600;
-      font-size: 12px;
-      transition: transform 0.15s ease, background 0.2s ease;
+      font-size: 10px;
+      transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease;
     }
     button.active {
-      background: linear-gradient(120deg, var(--primary-start), var(--primary-end));
-      color: white;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(14, 165, 233, 0.28);
+      background: color-mix(in srgb, var(--accent) 14%, transparent 86%);
+      color: var(--accent-strong);
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    @media (min-width: 900px) {
+      nav {
+        display: none;
+      }
     }
   `;
 
@@ -92,7 +97,7 @@ export class AcTabbar extends LitElement {
               <ac-icon
                 .name=${tab.icon}
                 size="18"
-                color=${this.activePath === tab.path ? '#fff' : 'var(--muted)'}
+                color=${this.activePath === tab.path ? 'var(--accent)' : 'var(--muted)'}
               ></ac-icon>
               <span>${tab.label}</span>
             </button>`

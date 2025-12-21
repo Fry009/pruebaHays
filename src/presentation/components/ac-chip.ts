@@ -30,12 +30,9 @@ export class AcChip extends LitElement {
       align-items: center;
       gap: 6px;
       border: 1px solid var(--border);
-      box-shadow: 0 10px 22px rgba(2, 6, 23, 0.06);
       cursor: pointer;
-      background: var(--surface-strong);
+      background: var(--surface);
       color: var(--text);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
     }
     .blue {
       background: color-mix(in srgb, var(--accent) 14%, var(--surface-strong) 86%);
@@ -43,14 +40,14 @@ export class AcChip extends LitElement {
       color: var(--accent-strong);
     }
     .green {
-      background: color-mix(in srgb, #22c55e 14%, var(--surface-strong) 86%);
-      border-color: color-mix(in srgb, #22c55e 26%, var(--border) 74%);
-      color: #15803d;
+      background: color-mix(in srgb, var(--success) 14%, var(--surface-strong) 86%);
+      border-color: color-mix(in srgb, var(--success) 26%, var(--border) 74%);
+      color: color-mix(in srgb, var(--success) 70%, black 30%);
     }
     .amber {
-      background: color-mix(in srgb, #f59e0b 14%, var(--surface-strong) 86%);
-      border-color: color-mix(in srgb, #f59e0b 26%, var(--border) 74%);
-      color: #b45309;
+      background: color-mix(in srgb, var(--warning) 14%, var(--surface-strong) 86%);
+      border-color: color-mix(in srgb, var(--warning) 26%, var(--border) 74%);
+      color: color-mix(in srgb, var(--warning) 70%, black 30%);
     }
     .gray {
       background: var(--surface-strong);

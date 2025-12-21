@@ -25,7 +25,12 @@ export class AcSkeleton extends LitElement {
       display: inline-block;
     }
     .block {
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(240, 249, 255, 0.9), rgba(255, 255, 255, 0.6));
+      background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--surface-strong) 92%, black 8%),
+        var(--surface-strong),
+        color-mix(in srgb, var(--surface-strong) 92%, black 8%)
+      );
       background-size: 200% 100%;
       animation: shimmer 1.4s ease-in-out infinite;
     }

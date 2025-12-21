@@ -31,10 +31,10 @@ export class AcToast extends LitElement {
     .toast {
       padding: 12px 16px;
       border-radius: 12px;
-      background: linear-gradient(120deg, var(--primary0), var(--primary1));
-      color: white;
+      background: color-mix(in srgb, var(--text) 92%, var(--surface) 8%);
+      color: var(--surface);
       min-width: 240px;
-      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.25);
+      box-shadow: var(--shadow-soft);
       opacity: 0;
       transform: translateY(12px);
       transition: all 0.2s ease;
@@ -47,7 +47,7 @@ export class AcToast extends LitElement {
       background: var(--danger);
     }
     .success {
-      background: #22c55e;
+      background: var(--success);
     }
   `;
 

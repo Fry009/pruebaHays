@@ -34,6 +34,7 @@ export interface EmployeeRepository {
 export interface ClientRepository {
   getClient(id: string): Promise<Client | undefined>;
   list(): Promise<Client[]>;
+  addClient(client: Client): Promise<void>;
 }
 
 export interface KpiRepository {

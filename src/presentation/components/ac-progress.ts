@@ -20,13 +20,13 @@ export class AcProgress extends LitElement {
     }
     .bar {
       background: color-mix(in srgb, var(--border) 40%, transparent 60%);
-      height: 10px;
+      height: 4px;
       border-radius: 999px;
       overflow: hidden;
     }
     .fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--primary0), var(--primary1));
+      background: var(--accent);
       transition: width 0.2s ease;
     }
   `;

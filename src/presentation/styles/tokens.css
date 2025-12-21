@@ -1,18 +1,20 @@
 :root {
   /* Base (Light) */
-  --bg0: #f5fbff;
-  --bg1: #e9fbf7;
-  --surface: rgba(255, 255, 255, 0.9);
-  --surface-strong: rgba(255, 255, 255, 0.96);
-  --border: rgba(15, 23, 42, 0.1);
-  --shadow: 0 1px 0 rgba(15, 23, 42, 0.03), 0 18px 52px rgba(2, 6, 23, 0.09);
-  --shadow-soft: 0 12px 28px rgba(2, 6, 23, 0.07);
-  --shadow-strong: 0 28px 80px rgba(2, 6, 23, 0.14);
-  --text: #0f172a;
-  --muted: rgba(15, 23, 42, 0.62);
-  --primary0: #2dd4bf;
-  --primary1: #0ea5e9;
-  --danger: #ef4444;
+  --bg0: #ffffff;
+  --bg1: #f6f5f3;
+  --surface: #ffffff;
+  --surface-strong: #fbfaf8;
+  --border: rgba(28, 28, 28, 0.08);
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 10px 24px rgba(15, 23, 42, 0.06);
+  --shadow-soft: 0 1px 1px rgba(15, 23, 42, 0.05), 0 6px 16px rgba(15, 23, 42, 0.05);
+  --shadow-strong: 0 16px 50px rgba(15, 23, 42, 0.12);
+  --text: #1c1c1c;
+  --muted: rgba(28, 28, 28, 0.62);
+  --primary0: #16b8a6; /* teal/turquoise */
+  --primary1: #2b76d2; /* muted blue */
+  --danger: #e05d5d;
+  --success: #22c55e;
+  --warning: #f59e0b;
 
   /* Aliases used across the app */
   --bg-gradient-start: var(--bg0);
@@ -24,7 +26,7 @@
   --text-muted: var(--muted);
   --primary-start: var(--primary0);
   --primary-end: var(--primary1);
-  --accent: var(--primary1);
+  --accent: var(--primary0);
   --accent-strong: color-mix(in srgb, var(--accent) 88%, black 12%);
   --accent-weak: color-mix(in srgb, var(--accent) 16%, white 84%);
   --ring: color-mix(in srgb, var(--accent) 40%, transparent 60%);
@@ -33,19 +35,21 @@
 [data-theme='dark'],
 .dark {
   /* Base (Dark) */
-  --bg0: #0b1223;
-  --bg1: #0f172a;
-  --surface: rgba(17, 24, 39, 0.78);
-  --surface-strong: rgba(17, 24, 39, 0.88);
+  --bg0: #0b0f12;
+  --bg1: #0f151a;
+  --surface: #11181e;
+  --surface-strong: #141d24;
   --border: rgba(255, 255, 255, 0.1);
-  --shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 22px 60px rgba(0, 0, 0, 0.42);
-  --shadow-soft: 0 16px 44px rgba(0, 0, 0, 0.34);
-  --shadow-strong: 0 34px 90px rgba(0, 0, 0, 0.55);
-  --text: #f8fafc;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04), 0 16px 50px rgba(0, 0, 0, 0.42);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.34);
+  --shadow-strong: 0 24px 80px rgba(0, 0, 0, 0.55);
+  --text: #f5f7fb;
   --muted: rgba(226, 232, 240, 0.7);
-  --primary0: #22d3ee;
-  --primary1: #0ea5e9;
+  --primary0: #18c3b0;
+  --primary1: #3b82f6;
   --danger: #f87171;
+  --success: #34d399;
+  --warning: #fbbf24;
 
   /* Aliases */
   --bg-gradient-start: var(--bg0);
@@ -57,16 +61,16 @@
   --text-muted: var(--muted);
   --primary-start: var(--primary0);
   --primary-end: var(--primary1);
-  --accent: var(--primary1);
+  --accent: var(--primary0);
   --accent-strong: color-mix(in srgb, var(--accent) 78%, white 22%);
   --accent-weak: color-mix(in srgb, var(--accent) 22%, black 78%);
   --ring: color-mix(in srgb, var(--accent) 55%, transparent 45%);
 }
 
 .theme-ocean {
-  --primary0: #2dd4bf;
-  --primary1: #0ea5e9;
-  --accent: var(--primary1);
+  --primary0: #16b8a6;
+  --primary1: #2b76d2;
+  --accent: var(--primary0);
 }
 
 .theme-forest {

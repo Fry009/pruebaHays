@@ -37,8 +37,7 @@ export class AcAppShell extends LitElement {
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 23, 0.18);
-      backdrop-filter: blur(10px);
+      background: rgba(15, 23, 42, 0.28);
       z-index: 40;
     }
     @media (min-width: 900px) {

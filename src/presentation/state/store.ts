@@ -1,4 +1,4 @@
-import { ChecklistItem, Employee, FeatureFlag, KPI, Lead, ServiceJob } from '@core/entities/types';
+import { ChecklistItem, Client, Employee, FeatureFlag, KPI, Lead, ServiceJob } from '@core/entities/types';
 import { AppSettings } from '@core/ports/repositories';
 import { buildContainer } from '@infrastructure/container';
 import { log } from '@shared/logger';
@@ -9,6 +9,7 @@ export interface AppState {
   ready: boolean;
   employee?: Employee;
   jobs: ServiceJob[];
+  clients: Client[];
   kpis: KPI[];
   leads: Lead[];
   settings: AppSettings;
@@ -20,6 +21,7 @@ export interface AppState {
 let state: AppState = {
   ready: false,
   jobs: [],
+  clients: [],
   kpis: [],
   leads: [],
   syncing: false,
@@ -40,17 +42,23 @@ function setState(partial: Partial<AppState>) {
   listeners.forEach((l) => l(state));
 }
 
+function startThemeTransition() {
+  document.documentElement.classList.add('theme-transition');
+  window.setTimeout(() => document.documentElement.classList.remove('theme-transition'), 220);
+}
+
 export async function initStore() {
   if (!containerPromise) containerPromise = buildContainer();
   const container = await containerPromise;
   const employee = await container.repos.employeeRepo.getEmployee('emp-1');
   const jobs = await container.repos.jobRepo.listJobsForEmployee('emp-1');
+  const clients = await container.repos.clientRepo.list();
   const kpis = await container.repos.kpiRepo.listByEmployee('emp-1');
   const leads = await container.usecases.listLeads.execute();
   const settings = await container.repos.settingsRepo.getSettings();
   const flags = await container.repos.flagRepo.getPlan('emp-1');
   applyAccentClass(settings.accent);
-  setState({ ready: true, employee, jobs, kpis, leads, settings, flags });
+  setState({ ready: true, employee, jobs, clients, kpis, leads, settings, flags });
 }
 
 export async function startCheckIn(jobId: string) {
@@ -99,6 +107,7 @@ export async function toggleTheme() {
   const next: AppSettings['theme'] = state.settings.theme === 'light' ? 'dark' : 'light';
   const settings: AppSettings = { ...state.settings, theme: next };
   await container.repos.settingsRepo.saveSettings(settings);
+  startThemeTransition();
   document.documentElement.classList.toggle('dark', next === 'dark');
   setState({ settings });
 }
@@ -107,6 +116,7 @@ export async function setAccent(accent: AppSettings['accent']) {
   const container = await containerPromise!;
   const settings: AppSettings = { ...state.settings, accent };
   await container.repos.settingsRepo.saveSettings(settings);
+  startThemeTransition();
   applyAccentClass(accent);
   setState({ settings });
 }
@@ -200,4 +210,29 @@ export async function getEvidence(jobId: string) {
 export async function getClient(clientId: string) {
   const container = await containerPromise!;
   return container.repos.clientRepo.getClient(clientId);
+}
+
+export async function listClients() {
+  const container = await containerPromise!;
+  const clients = await container.repos.clientRepo.list();
+  setState({ clients });
+  return clients;
+}
+
+export async function addClient(input: { name: string; address?: string; notes?: string }) {
+  const container = await containerPromise!;
+  const id =
+    typeof crypto !== 'undefined' && 'randomUUID' in crypto
+      ? crypto.randomUUID()
+      : `cli-${Math.random().toString(16).slice(2)}`;
+  const client: Client = {
+    id,
+    name: input.name.trim(),
+    address: input.address?.trim() || '',
+    notes: input.notes?.trim() || ''
+  };
+  await container.repos.clientRepo.addClient(client);
+  const clients = await container.repos.clientRepo.list();
+  setState({ clients });
+  return client;
 }

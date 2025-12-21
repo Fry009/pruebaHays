@@ -11,7 +11,7 @@ export class AcCard extends LitElement {
 
   constructor() {
     super();
-    this.variant = 'glass';
+    this.variant = 'default';
   }
 
   static styles = css`
@@ -19,7 +19,7 @@ export class AcCard extends LitElement {
       display: block;
     }
     .card {
-      border-radius: 20px;
+      border-radius: 18px;
       padding: 16px;
       animation: fadeIn 0.25s ease;
     }
@@ -27,27 +27,25 @@ export class AcCard extends LitElement {
       background: var(--surface);
       border: 1px solid var(--border);
       box-shadow: var(--shadow-soft);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
       color: var(--text);
     }
     .soft {
       background: var(--surface-strong);
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
+      box-shadow: none;
       color: var(--text);
     }
     .default {
-      background: var(--surface-strong);
+      background: var(--surface);
       border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+      box-shadow: none;
       color: var(--text);
     }
     .hero {
-      background: linear-gradient(120deg, var(--primary-start), var(--primary-end));
-      border: 1px solid color-mix(in srgb, var(--primary-end) 30%, transparent 70%);
-      box-shadow: 0 22px 60px rgba(14, 165, 233, 0.22);
-      color: white;
+      background: color-mix(in srgb, var(--accent) 10%, var(--surface) 90%);
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border) 78%);
+      box-shadow: none;
+      color: var(--text);
     }
     @keyframes fadeIn {
       from {

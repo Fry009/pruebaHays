@@ -28,19 +28,17 @@ export class AcModal extends LitElement {
     }
     :host([open]) {
       display: flex;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(4px);
+      background: rgba(15, 23, 42, 0.32);
     }
     .modal {
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-      padding: 20px;
-      border-radius: 18px;
+      background: var(--surface);
+      padding: 16px;
+      border-radius: 16px;
       width: min(480px, 92vw);
       max-height: 90vh;
       overflow: auto;
-      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-strong);
+      border: 1px solid var(--border);
     }
     header {
       display: flex;

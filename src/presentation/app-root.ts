@@ -14,7 +14,8 @@ import {
   getState,
   initStore,
   subscribe,
-  syncNow
+  syncNow,
+  toggleTheme
 } from './state/store';
 
 @customElement('app-root')
@@ -24,6 +25,8 @@ export class AppRoot extends LitElement {
   @state() declare path: string;
   @state() declare appState?: AppState;
   @state() declare drawerOpen: boolean;
+  @state() declare overflowOpen: boolean;
+
   private lastTheme?: string;
   private lastAccent?: string;
 
@@ -33,6 +36,7 @@ export class AppRoot extends LitElement {
     this.error = undefined;
     this.path = window.location.pathname;
     this.drawerOpen = false;
+    this.overflowOpen = false;
   }
 
   protected createRenderRoot() {
@@ -43,6 +47,7 @@ export class AppRoot extends LitElement {
     await initStore();
     const outlet = this.querySelector('#router-outlet');
     if (outlet) createRouter(outlet);
+
     subscribe((s) => {
       this.appState = s;
       this.syncing = s.syncing;
@@ -53,9 +58,16 @@ export class AppRoot extends LitElement {
         clearError();
       }
     });
+
     this.applyTheme(getState().settings);
+
     window.addEventListener('vaadin-router-location-changed', () => {
       this.path = window.location.pathname;
+      this.overflowOpen = false;
+    });
+
+    window.addEventListener('click', () => {
+      if (this.overflowOpen) this.overflowOpen = false;
     });
   }
 
@@ -73,6 +85,8 @@ export class AppRoot extends LitElement {
     if (path.startsWith('/leads')) return 'Mercado';
     if (path.startsWith('/kpis')) return 'KPIs';
     if (path.startsWith('/jobs')) return 'Jobs';
+    if (path.startsWith('/clients')) return 'Clientes';
+    if (path.startsWith('/settings')) return 'Ajustes';
     if (path.startsWith('/profile')) return 'Perfil';
     if (path.startsWith('/premium')) return 'Premium';
     if (path.startsWith('/help')) return 'Ayuda';
@@ -83,6 +97,7 @@ export class AppRoot extends LitElement {
     window.history.pushState({}, '', path);
     this.path = path;
     this.drawerOpen = false;
+    this.overflowOpen = false;
     window.dispatchEvent(new PopStateEvent('popstate'));
   }
 
@@ -96,44 +111,98 @@ export class AppRoot extends LitElement {
         @drawer-toggle=${(e: CustomEvent<boolean>) => (this.drawerOpen = e.detail)}
         @navigate=${(e: CustomEvent<string>) => this.go(e.detail)}
       >
-        <header class="sticky top-0 z-20 pt-3 pb-2">
-          <div
-            class="glass flex items-center justify-between rounded-2xl px-4 py-3"
-          >
-            <div class="flex items-center gap-2">
+        <header
+          class="fixed top-0 left-0 right-0 z-30"
+          style="background: var(--surface); border-bottom: 1px solid var(--border);"
+        >
+          <div class="max-w-[1180px] mx-auto px-3 py-2">
+            <div class="flex items-center justify-between gap-2">
               <button
-                class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 transition"
+                class="icon-btn"
                 aria-label="Abrir menú"
-                @click=${() => (this.drawerOpen = true)}
+                @click=${(e: Event) => {
+                  e.stopPropagation();
+                  this.drawerOpen = true;
+                }}
               >
-                <ac-icon name="menu" size="20" color="var(--accent-strong)"></ac-icon>
+                <ac-icon name="menu" size="20" color="var(--text)"></ac-icon>
               </button>
-              <div
-                class="w-7 h-7 rounded-full flex items-center justify-center"
-                style="background: linear-gradient(135deg, var(--primary-start), var(--primary-end)); box-shadow: 0 12px 26px rgba(14,165,233,0.22);"
-                aria-hidden="true"
-              >
-                <ac-icon name="sparkle" size="16" color="#fff"></ac-icon>
+
+              <div class="flex-1 text-center">
+                <span class="text-[15px] font-semibold text-strong">${title}</span>
               </div>
-              <span class="text-base font-extrabold text-strong">${title}</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <button class="icon-btn" title="Notificaciones" aria-label="Notificaciones">
-                <ac-icon name="bell" size="18" color="var(--accent-strong)"></ac-icon>
-              </button>
-              <button
-                class="px-3 py-2 rounded-full text-white font-semibold"
-                style="background: linear-gradient(120deg, var(--primary-start), var(--primary-end)); box-shadow: 0 14px 32px rgba(14,165,233,0.22);"
-                @click=${syncNow}
-              >
-                ${this.syncing ? 'Sincronizando' : 'Conectar'}
-              </button>
+
+              <div class="relative flex items-center gap-2">
+                <button
+                  class="icon-btn"
+                  title="Notificaciones"
+                  aria-label="Notificaciones"
+                  @click=${(e: Event) => e.stopPropagation()}
+                >
+                  <ac-icon name="bell" size="18" color="var(--text)"></ac-icon>
+                </button>
+                <button
+                  class="icon-btn"
+                  title="Más"
+                  aria-label="Más opciones"
+                  @click=${(e: Event) => {
+                    e.stopPropagation();
+                    this.overflowOpen = !this.overflowOpen;
+                  }}
+                >
+                  <ac-icon name="more-vertical" size="18" color="var(--text)"></ac-icon>
+                </button>
+
+                ${this.overflowOpen
+                  ? html`
+                      <div
+                        class="absolute right-0 top-11 w-56 rounded-2xl p-1"
+                        style="background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow);"
+                        @click=${(e: Event) => e.stopPropagation()}
+                      >
+                        <button
+                          class="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition text-left"
+                          @click=${() => {
+                            this.overflowOpen = false;
+                            syncNow();
+                          }}
+                        >
+                          <ac-icon name="sync" size="18"></ac-icon>
+                          <span class="text-sm font-medium"
+                            >${this.syncing ? 'Sincronizando…' : 'Sincronizar ahora'}</span
+                          >
+                        </button>
+                        <button
+                          class="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition text-left"
+                          @click=${() => {
+                            this.overflowOpen = false;
+                            this.go('/settings');
+                          }}
+                        >
+                          <ac-icon name="shield" size="18"></ac-icon>
+                          <span class="text-sm font-medium">Ajustes</span>
+                        </button>
+                        <button
+                          class="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition text-left"
+                          @click=${() => {
+                            this.overflowOpen = false;
+                            toggleTheme();
+                          }}
+                        >
+                          <ac-icon name="sparkle" size="18"></ac-icon>
+                          <span class="text-sm font-medium">Cambiar tema</span>
+                        </button>
+                      </div>
+                    `
+                  : null}
+              </div>
             </div>
           </div>
         </header>
-        <main id="router-outlet" class="pb-28"></main>
+        <main id="router-outlet" class="pt-16"></main>
       </ac-app-shell>
       <ac-toast id="toast" .message=${this.error ?? ''} variant="error"></ac-toast>
     `;
   }
 }
+

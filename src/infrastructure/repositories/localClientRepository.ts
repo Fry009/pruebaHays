@@ -11,4 +11,8 @@ export class LocalClientRepository implements ClientRepository {
   async list(): Promise<Client[]> {
     return db.clients.toArray();
   }
+
+  async addClient(client: Client): Promise<void> {
+    await db.clients.put(client);
+  }
 }
